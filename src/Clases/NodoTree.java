@@ -9,11 +9,12 @@ package Clases;
  * @author sebas
  */
 public class NodoTree {
-     private Object element;
+
+    private Object element;
     private int key;
     private NodoTree[] sons;
 
-    public NodoTree (Object element, int key) {
+    public NodoTree(Object element, int key) {
         this.element = element;
         this.key = key;
         this.sons = new NodoTree[0];
@@ -41,5 +42,5 @@ public class NodoTree {
 
     public void setSons(NodoTree[] sons) {
         this.sons = sons;
-    }}
-
+    }
+}
