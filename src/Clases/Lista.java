@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.arbolgenealogico;
+package Clases;
 
 /**
  *
  * @author xc2do
+ * @param <T>
  */
 public class Lista<T> {
 
