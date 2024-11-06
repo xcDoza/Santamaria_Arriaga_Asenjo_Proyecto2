@@ -161,9 +161,9 @@ public class Interfaz1 extends javax.swing.JFrame {
 
         // Imprimir el árbol para verificar el parseo
         if (houseTree.isEmpty()) {
-            System.out.println("El árbol está vacío después de intentar insertar los nodos.");
+            System.out.println("El arbol está vacío después de intentar insertar los nodos.");
         } else {
-            System.out.println("El árbol tiene nodos correctamente.");
+            System.out.println("El arbol tiene nodos correctamente.");
             houseTree.print(houseTree.getRoot());
         }
     }
