@@ -10,9 +10,11 @@ package proyecto2;
  */
 public interface IHashTable {
     
-    public Object get(K key);
-    public void remove(K key);
-    public void add();
+    public Object get(String key);
+    public void remove(String key);
+    public void add(String key);
     public boolean isEmpty();
     public int getSize();
+    public int hash(String key);
+    public long transformString(String c);
 }
