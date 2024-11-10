@@ -1,53 +1,88 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package proyecto2;
 
-/**
- *
- * @author Eddy
- */
 public class HashTable implements IHashTable{
 
-    static final int max = 101;
+    static final int max = 53;
     public int size;
-    public double convertingFactor;
-    public Object[] tabla;
+    public Persona[] table;
+
+    public HashTable() {
+        this.size = 0;
+        this.table = new Persona[max];
+        int i = 0;
+        while (i < max){
+           table[i] = null;
+           i++;
+        }
+    }
     
     @Override
-    public Object get(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Persona get(String key) {
+        Persona p;
+        int position = hash(key);
+        p = table[position];
+        return p;
     }
 
     @Override
     public void remove(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int position = hash(key);
+        table[position] = null;
+        size--;
     }
 
     @Override
-    public void add(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void add(Persona person, boolean mote) {
+        int position;
+        String key;
+        if (mote){
+            key = person.getMote();
+            position = hash(key);
+        } else {        
+            key = person.getName() + person.getNumeric();
+            position = hash(key);
+        }
+        table[position] = person;
+        size++;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return size == 0;
     }
 
     @Override
-    public int getSize() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int getMax() {
+        return max;
     }
 
     @Override
     public int hash(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int i = 0, p;
+        long d;
+        String aux;
+        d = transformString(key);
+        p = (int) d % getMax();
+        aux = table[p].getNombre() + table[p].getNumeric();
+        while (table[p] != null && aux.equals(key))
+            p++;
+            aux = table[p].getName() + table[p].getNumeric();
+        return p;
     }
 
     @Override
-    public long transformString(String c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public long transformString(String key) {
+        long d = 0;
+        int i = 0;
+        while (i < key.length()){
+            d = d * 27 + (int) key.charAt(i);
+            i++;
+        }
+        if (d < 0){
+            d = -d;
+        }
+        return d;
     }
 
 
