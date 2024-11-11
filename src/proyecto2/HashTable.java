@@ -38,10 +38,10 @@ public class HashTable implements IHashTable{
         String key;
         if (mote){
             key = person.getMote();
-            position = hash(key);
+            position = hash(key.toLowerCase());
         } else {        
             key = person.getName() + person.getNumeric();
-            position = hash(key);
+            position = hash(key.toLowerCase());
         }
         table[position] = person;
         size++;
@@ -58,16 +58,27 @@ public class HashTable implements IHashTable{
     }
 
     @Override
-    public int hash(String key) {
+    public int hash(String key, boolean mote) {
         int i = 0, p;
         long d;
         String aux;
         d = transformString(key);
         p = (int) d % getMax();
-        aux = table[p].getNombre() + table[p].getNumeric();
-        while (table[p] != null && aux.equals(key))
-            p++;
-            aux = table[p].getName() + table[p].getNumeric();
+        if (mote){
+            aux = table[p].getMote;
+        }else{
+            aux = table[p].getNombre() + " " + table[p].getNumeric();
+        }
+        while (table[p] != null && aux.toLowerCase().equals(key)){
+            i++;
+            p = p + i * i;
+            p = (int) p % size;
+            if (mote){
+            aux = table[p].getMote;
+            }else{
+            aux = table[p].getNombre() + " " + table[p].getNumeric();
+            }
+        }
         return p;
     }
 
