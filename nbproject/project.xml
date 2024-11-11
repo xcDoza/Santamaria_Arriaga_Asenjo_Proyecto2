@@ -3,7 +3,11 @@
     <type>org.netbeans.modules.java.j2seproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
+<<<<<<< HEAD
+            <name>Proyecto2</name>
+=======
             <name>Árbol Genealógico</name>
+>>>>>>> 62d8439ba5fa224cab0b54eb93d54596a1cf307e
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
