@@ -1,6 +1,8 @@
 
 package proyecto2;
 
+import Clases.Persona;
+
 public interface IHashTable {
     
     public Persona get(String key);
