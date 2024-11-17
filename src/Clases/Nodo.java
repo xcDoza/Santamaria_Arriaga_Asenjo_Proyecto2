@@ -10,14 +10,30 @@ package Clases;
  */
 public class Nodo<T> {
     
+    private String key;
     private T element;
     private Nodo next;
 
     public Nodo(T element) {
         this.element = element;
+        this.key = null;
         this.next = null;
     }
 
+    public Nodo(String key, T element) {
+        this.key = key;
+        this.element = element;
+        this.next = null;
+    }
+    
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+    
     public T getElement() {
         return element;
     }

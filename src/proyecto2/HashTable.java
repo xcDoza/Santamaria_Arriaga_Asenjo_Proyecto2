@@ -1,6 +1,8 @@
 
 package proyecto2;
 
+import Clases.Persona;
+
 public class HashTable implements IHashTable{
 
     static final int max = 53;
@@ -18,16 +20,16 @@ public class HashTable implements IHashTable{
     }
     
     @Override
-    public Persona get(String key) {
+    public Persona get(String key, boolean mote) {
         Persona p;
-        int position = hash(key);
+        int position = hash(key, mote);
         p = table[position];
         return p;
     }
 
     @Override
-    public void remove(String key) {
-        int position = hash(key);
+    public void remove(String key, boolean mote) {
+        int position = hash(key, mote);
         table[position] = null;
         size--;
     }
@@ -37,11 +39,11 @@ public class HashTable implements IHashTable{
         int position;
         String key;
         if (mote){
-            key = person.getMote();
-            position = hash(key.toLowerCase());
+            key = person.getApodo();
+            position = hash(key.toLowerCase(), mote);
         } else {        
-            key = person.getName() + person.getNumeric();
-            position = hash(key.toLowerCase());
+            key = person.getApodo() + person.getNumeric();
+            position = hash(key.toLowerCase(), mote);
         }
         table[position] = person;
         size++;
@@ -65,7 +67,7 @@ public class HashTable implements IHashTable{
         d = transformString(key);
         p = (int) d % getMax();
         if (mote){
-            aux = table[p].getMote;
+            aux = table[p].getApodo();
         }else{
             aux = table[p].getNombre() + " " + table[p].getNumeric();
         }
@@ -74,7 +76,7 @@ public class HashTable implements IHashTable{
             p = p + i * i;
             p = (int) p % size;
             if (mote){
-            aux = table[p].getMote;
+            aux = table[p].getApodo();
             }else{
             aux = table[p].getNombre() + " " + table[p].getNumeric();
             }
