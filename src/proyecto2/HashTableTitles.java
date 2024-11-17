@@ -25,14 +25,13 @@ public class HashTableTitles{
            table[i] = null;
            i++;
         }
-    }
-    
+    }  
     
     public Lista get(String key) {
-        Lista l;
+        Lista list;
         int position = hash(key);
-        l = table[position];                                                                                                                                                                                                                                    
-        return l;
+        list = table[position];                                                                                                                                                                                                                                    
+        return list;
     }
 
     public void remove(String key) {
@@ -44,7 +43,28 @@ public class HashTableTitles{
     public void add(Persona person) {
         int position;
         String[] keys = person.getTitle().split(",");
-        String key;
+        for (String key : keys){
+            position = hash(key);
+            if (table[position] == null){
+                table[position] = new Lista();
+                table[position].insertFinal(person, key);
+            } else {
+                if (table[position].getHead().getKey().equalsIgnoreCase(key)){
+                    table[position].insertFinal(person, key);
+                }else {
+                    // Resolución de colisiones usando prueba cuadrática
+                    int i = 1;
+                    while (table[position] != null && !table[position].getHead().getKey().equalsIgnoreCase(key)) {
+                        position = (position + i * i) % max;
+                        i++;
+                    }
+                    if (table[position] == null){
+                        table[position] = new Lista();
+                    }
+                    table[position].insertFinal(person, key);
+                }
+            }
+        }
     }
 
     public boolean isEmpty() {
@@ -55,12 +75,41 @@ public class HashTableTitles{
         return max;
     }
 
+    /**
+     * Método hash para calcular la posición en la tabla
+     * @param key Clave para hashear
+     * @return Posición en la tabla
+     */
     public int hash(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        long hashValue = transformString(key); // Genera el valor hash a partir de la clave
+        int position = (int) (hashValue % max);
+        // Prueba cuadrática en caso de colisión
+        int i = 0;
+        String auxKey;
+        do {
+            Lista lista = table[position];
+            if (lista == null) break;
+
+            auxKey = lista.getHead().getKey();
+            if (auxKey.equalsIgnoreCase(key)) break;
+
+            i++;
+            position = (position + i * i) % max;
+        } while (table[position] != null);
+        return position;
     }
 
+    /**
+     * Transforma un String en un valor numérico para el hash
+     * @param key String a transformar
+     * @return Valor hash
+     */
     public long transformString(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        long hash = 0;
+        for (int i = 0; i < key.length(); i++) {
+            hash = (hash * 31) + key.charAt(i); // Función hash base 31
+        }
+        return Math.abs(hash);
     }
     
 }

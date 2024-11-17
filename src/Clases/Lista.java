@@ -38,6 +38,19 @@ public class Lista<T> {
         size++;
     }
 
+    public void insertFinal(T info, String key) {
+        Nodo<T> nuevo = new Nodo<>(key, info);
+        if (esVacio()) {
+            head = nuevo;
+            tail = nuevo;
+        } else {
+            Nodo<T> aux = tail;
+            aux.setNext(nuevo);
+            tail = nuevo;
+        }
+        size++;
+    }    
+    
     //esto devuelve los elementos de una lista en una cadena
     @Override
     public String toString() {

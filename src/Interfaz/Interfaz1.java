@@ -4,7 +4,14 @@
  */
 package Interfaz;
 
-import Clases.NodoTree;
+import Clases.Lista;
+import Clases.Persona;
+import Clases.Casa;
+import Clases.Nodo;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import Clases.Tree;
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +24,7 @@ import javax.swing.JOptionPane;
  *
  * @author sebas
  */
+
 public class Interfaz1 extends javax.swing.JFrame {
 
     /**
@@ -24,6 +32,8 @@ public class Interfaz1 extends javax.swing.JFrame {
      */
     private Tree houseTree;
 
+    Lista casas = new Lista();
+    
     public Interfaz1() {
         initComponents();
         houseTree = new Tree();
@@ -83,139 +93,121 @@ public class Interfaz1 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCargarArchivoActionPerformed
 
     private void parsearJson(String contenidoJson) {
-        // Eliminar espacios y saltos de línea para simplificar el análisis
-        contenidoJson = contenidoJson.replaceAll("\\s+", "");
+        Gson gson = new Gson();
 
-        // Verificar si el JSON empieza con { y termina con }
-        if (contenidoJson.startsWith("{") && contenidoJson.endsWith("}")) {
-            contenidoJson = contenidoJson.substring(1, contenidoJson.length() - 1); // Eliminar { y }
+        // Parsear JSON en un objeto JsonObject
+        JsonObject jsonObject = gson.fromJson(contenidoJson, JsonObject.class);
 
-            // Separar las casas en el JSON (usando el delimitador de "],{")
-            String[] casasArray = contenidoJson.split("],\\{");
+        // Iterar sobre cada casa en el JSON
+        for (String nombreCasa : jsonObject.keySet()) {
+            // Crear una nueva Casa
+            Casa casa = new Casa(nombreCasa);
+            JsonArray personajesArray = jsonObject.getAsJsonArray(nombreCasa);
 
-            for (String casa : casasArray) {
-                // Limpiar la cadena de caracteres no deseados y obtener el nombre de la casa
-                int indiceDosPuntos = casa.indexOf(":[");
-                if (indiceDosPuntos == -1) {
-                    continue; // Si no hay un delimitador correcto, continuar con la siguiente
-                }
-                String nombreCasa = casa.substring(0, indiceDosPuntos).replaceAll("[{}\"]", "");
-                System.out.println("Procesando casa: " + nombreCasa);
+            // Iterar sobre cada personaje en la casa
+            for (JsonElement personajeElement : personajesArray) {
+                JsonObject personajeObject = personajeElement.getAsJsonObject();
 
-                // Insertar la casa en el árbol
-                NodoTree casaNodo = houseTree.insert(nombreCasa, -1, houseTree.getRoot());
-                if (casaNodo == null) {
-                    System.out.println("Error al insertar la casa en el árbol.");
-                    continue;
-                } else {
-                    System.out.println("Casa insertada: " + nombreCasa);
-                }
+                // Obtener el primer nombre de personaje y sus atributos
+                String nombrePersonaje = personajeObject.keySet().iterator().next();
+                JsonArray atributosArray = personajeObject.getAsJsonArray(nombrePersonaje);
 
-                // Obtener el contenido de los personajes
-                String personajesContenido = casa.substring(indiceDosPuntos + 2).replaceAll("\\]$", ""); // Eliminar el último ]
+                // Crear un nuevo objeto Persona
+                Persona personaje = new Persona(nombrePersonaje, ""); // Sin apodo, ya que no está en el JSON
 
-                // Separar los personajes por "},{"
-                String[] personajes = personajesContenido.split("\\},\\{");
+                // Iterar sobre cada atributo del personaje
+                for (JsonElement atributoElement : atributosArray) {
+                    JsonObject atributoObject = atributoElement.getAsJsonObject();
 
-                for (String personaje : personajes) {
-                    // Limpiar las llaves adicionales y comillas
-                    personaje = personaje.replaceAll("[{}\"]", "");
-
-                    // Separar el nombre del personaje de sus atributos
-                    int indexAtributos = personaje.indexOf(":[");
-                    if (indexAtributos == -1) {
-                        continue; // Si no hay atributos, continuar con el siguiente personaje
-                    }
-                    String nombrePersonaje = personaje.substring(0, indexAtributos);
-                    System.out.println("Procesando personaje: " + nombrePersonaje);
-
-                    // Insertar el personaje en el árbol
-                    NodoTree personajeNodo = houseTree.insert(nombrePersonaje, casaNodo.getKey(), houseTree.getRoot());
-                    if (personajeNodo == null) {
-                        System.out.println("Error al insertar el personaje en el árbol.");
-                        continue;
-                    } else {
-                        System.out.println("Personaje insertado: " + nombrePersonaje);
-                    }
-
-                    // Obtener los atributos y dividirlos por "},{"
-                    String atributosContenido = personaje.substring(indexAtributos + 2).replaceAll("\\]$", ""); // Eliminar el último ]
-                    String[] atributosArray = atributosContenido.split("\\},\\{");
-
-                    for (String atributo : atributosArray) {
-                        // Limpiar las llaves adicionales y comillas, y eliminar cualquier corchete de cierre residual
-                        String atributoTexto = atributo.replaceAll("[{}\"\"]", "").replaceAll("\\]$", "");
-                        System.out.println("Atributo: " + atributoTexto);
-
-                        // Insertar el atributo en el árbol
-                        NodoTree atributoNodo = houseTree.insert(atributoTexto, personajeNodo.getKey(), houseTree.getRoot());
-                        if (atributoNodo == null) {
-                            System.out.println("Error al insertar el atributo en el árbol.");
-                        } else {
-                            System.out.println("Atributo insertado: " + atributoTexto);
-                        }
+                    for (String clave : atributoObject.keySet()) {
+                        String valor = atributoObject.get(clave).isJsonArray()
+                                ? atributoObject.getAsJsonArray(clave).toString()
+                                : atributoObject.get(clave).getAsString();
+                        personaje.addAtributo(clave + ": " + valor);
                     }
                 }
+                // Añadir el personaje a la casa
+                casa.addPersonaje(personaje);
             }
+
+            // Añadir la casa a la lista de casas
+            casas.insertFinal(casa);
         }
 
-        // Imprimir el árbol para verificar el parseo
-        if (houseTree.isEmpty()) {
-            System.out.println("El arbol está vacío después de intentar insertar los nodos.");
-        } else {
-            System.out.println("El arbol tiene nodos correctamente.");
-            houseTree.print(houseTree.getRoot());
-        }
+        // Imprimir para verificar el contenido
+        imprimirCasas();
     }
 
+    private void imprimirCasas() {
+        Nodo<Casa> nodoCasa = casas.getHead();
+        while (nodoCasa != null) {
+            Casa casa = nodoCasa.getElement();
+            System.out.println("Casa: " + casa.getNombre());
+
+            Nodo<Persona> nodoPersona = casa.getPersonajes().getHead();
+            while (nodoPersona != null) {
+                Persona personaje = nodoPersona.getElement();
+                System.out.println("  - Personaje: " + personaje.getNombre());
+
+                Nodo<String> nodoAtributo = personaje.getAtributos().getHead();
+                while (nodoAtributo != null) {
+                    System.out.println("    * " + nodoAtributo.getElement());
+                    nodoAtributo = nodoAtributo.getNext();
+                }
+                nodoPersona = nodoPersona.getNext();
+            }
+            nodoCasa = nodoCasa.getNext();
+        }
+    }
+    
     private String leerArchivoJson(String filePath) throws IOException {
 //  Con este metodo busco transcribir el archivo json de forma tal que pueda utilizar su informacion
-        StringBuilder contenidoJson = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
+    StringBuilder contenidoJson = new StringBuilder();
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        String linea;
+        while ((linea = reader.readLine()) != null) {
 //            se agrega el salto de linea para mantener el formato original del archivo
-                contenidoJson.append(linea).append("\n");
-            }
+            contenidoJson.append(linea).append("\n");
         }
-        JOptionPane.showMessageDialog(null, "Arhivo cargado con éxito");
-        return contenidoJson.toString();
     }
+    JOptionPane.showMessageDialog(null, "Arhivo cargado con éxito");
+    return contenidoJson.toString();
+}
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Interfaz1().setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new Interfaz1().setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCargarArchivo;
