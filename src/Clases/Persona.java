@@ -8,20 +8,34 @@ package Clases;
  *
  * @author xc2do
  */
+
 public class Persona {
 
     private String nombre;
     private String apodo;
-    private Lista<String> atributos;
+    private ListaArray atributos; // Cambiado a ListaArray
 
-    public Persona(String nombre, String apodo) {
+    public Persona(String nombre, String apodo, int maxAtributos) {
         this.nombre = nombre;
         this.apodo = apodo;
-        this.atributos = new Lista<>();
+        this.atributos = new ListaArray(maxAtributos); // Tamaño fijo
+        // Inicializar con "none" en todas las posiciones
+        for (int i = 0; i < maxAtributos; i++) {
+            atributos.insertFinal("none");
+        }
     }
 
-    public void addAtributo(String atributo) {
-        atributos.insertFinal(atributo);
+    public void setAtributo(int index, String atributo) {
+        if (index >= 0 && index < atributos.getMaxSize()) {
+            atributos.getArray()[index].setElement(atributo);
+        }
+    }
+
+    public String getAtributo(int index) {
+        if (index >= 0 && index < atributos.getMaxSize()) {
+            return (String) atributos.getArray()[index].getElement();
+        }
+        return "none"; // Si el índice es inválido
     }
 
     public String getNombre() {
@@ -40,12 +54,11 @@ public class Persona {
         this.apodo = apodo;
     }
 
-    public Lista<String> getAtributos() {
+    public ListaArray getAtributos() {
         return atributos;
     }
 
-    public void setAtributos(Lista<String> atributos) {
+    public void setAtributos(ListaArray atributos) {
         this.atributos = atributos;
     }
-
 }

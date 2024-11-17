@@ -7,7 +7,11 @@ package Interfaz;
 import Clases.Lista;
 import Clases.Persona;
 import Clases.Casa;
+import Clases.ListaArray;
 import Clases.Nodo;
+import Clases.NodoArray;
+import proyecto2.HashTableTitles;
+import proyecto2.HashTable;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
@@ -24,16 +28,19 @@ import javax.swing.JOptionPane;
  *
  * @author sebas
  */
-
 public class Interfaz1 extends javax.swing.JFrame {
 
     /**
      * Creates new form Interfaz1
      */
     private Tree houseTree;
-
+    private HashTable namesTable;
+    private HashTableTitles titlesTable;
+    
+    
     Lista casas = new Lista();
     
+
     public Interfaz1() {
         initComponents();
         houseTree = new Tree();
@@ -92,50 +99,96 @@ public class Interfaz1 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCargarArchivoActionPerformed
 
-    private void parsearJson(String contenidoJson) {
-        Gson gson = new Gson();
-
-        // Parsear JSON en un objeto JsonObject
-        JsonObject jsonObject = gson.fromJson(contenidoJson, JsonObject.class);
-
-        // Iterar sobre cada casa en el JSON
+    private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
+        ListaArray atributosUnicos = new ListaArray(100); // Tamaño inicial grande para manejar expansión
         for (String nombreCasa : jsonObject.keySet()) {
-            // Crear una nueva Casa
-            Casa casa = new Casa(nombreCasa);
             JsonArray personajesArray = jsonObject.getAsJsonArray(nombreCasa);
-
-            // Iterar sobre cada personaje en la casa
             for (JsonElement personajeElement : personajesArray) {
                 JsonObject personajeObject = personajeElement.getAsJsonObject();
-
-                // Obtener el primer nombre de personaje y sus atributos
                 String nombrePersonaje = personajeObject.keySet().iterator().next();
                 JsonArray atributosArray = personajeObject.getAsJsonArray(nombrePersonaje);
 
-                // Crear un nuevo objeto Persona
-                Persona personaje = new Persona(nombrePersonaje, ""); // Sin apodo, ya que no está en el JSON
-
-                // Iterar sobre cada atributo del personaje
                 for (JsonElement atributoElement : atributosArray) {
                     JsonObject atributoObject = atributoElement.getAsJsonObject();
-
                     for (String clave : atributoObject.keySet()) {
+                        if (!existeEnListaArray(atributosUnicos, clave)) {
+                            atributosUnicos.insertFinal(clave);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Número total de atributos únicos: " + atributosUnicos.getSize());
+        return atributosUnicos;
+    }
+
+// Método auxiliar para verificar si una clave existe en la ListaArray
+    private boolean existeEnListaArray(ListaArray lista, String clave) {
+        NodoArray[] array = lista.getArray();
+        for (int i = 0; i < lista.getSize(); i++) {
+            if (array[i] != null && clave.equals(array[i].getElement())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void parsearJson(String contenidoJson) {
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(contenidoJson, JsonObject.class);
+
+        // Paso 1: Obtener atributos únicos
+        ListaArray atributosUnicos = obtenerAtributosUnicos(jsonObject);
+
+        // Paso 2: Procesar las casas y personajes
+        for (String nombreCasa : jsonObject.keySet()) {
+            Casa casa = new Casa(nombreCasa);
+            JsonArray personajesArray = jsonObject.getAsJsonArray(nombreCasa);
+
+            for (JsonElement personajeElement : personajesArray) {
+                JsonObject personajeObject = personajeElement.getAsJsonObject();
+                String nombrePersonaje = personajeObject.keySet().iterator().next();
+                JsonArray atributosArray = personajeObject.getAsJsonArray(nombrePersonaje);
+
+                Persona persona = new Persona(nombrePersonaje, "", atributosUnicos.getSize());
+
+                // Rellenar atributos
+                NodoArray[] atributosArrayPersona = persona.getAtributos().getArray();
+                for (int i = 0; i < atributosUnicos.getSize(); i++) {
+                    atributosArrayPersona[i] = new NodoArray("none"); // Inicializar con "none"
+                }
+
+                // Asignar valores existentes
+                for (JsonElement atributoElement : atributosArray) {
+                    JsonObject atributoObject = atributoElement.getAsJsonObject();
+                    for (String clave : atributoObject.keySet()) {
+                        int index = obtenerIndice(atributosUnicos, clave);
                         String valor = atributoObject.get(clave).isJsonArray()
                                 ? atributoObject.getAsJsonArray(clave).toString()
                                 : atributoObject.get(clave).getAsString();
-                        personaje.addAtributo(clave + ": " + valor);
+                        atributosArrayPersona[index] = new NodoArray(clave + ": " + valor);
                     }
                 }
-                // Añadir el personaje a la casa
-                casa.addPersonaje(personaje);
+                casa.addPersonaje(persona);
+                namesTable.add(persona);
+                titlesTable.add(persona);
+                
             }
-
-            // Añadir la casa a la lista de casas
             casas.insertFinal(casa);
         }
 
-        // Imprimir para verificar el contenido
         imprimirCasas();
+    }
+
+// Método para obtener el índice de un atributo en ListaArray
+    private int obtenerIndice(ListaArray atributosUnicos, String clave) {
+        NodoArray[] array = atributosUnicos.getArray();
+        for (int i = 0; i < atributosUnicos.getSize(); i++) {
+            if (array[i] != null && clave.equals(array[i].getElement())) {
+                return i;
+            }
+        }
+        return -1; // No encontrado
     }
 
     private void imprimirCasas() {
@@ -149,65 +202,69 @@ public class Interfaz1 extends javax.swing.JFrame {
                 Persona personaje = nodoPersona.getElement();
                 System.out.println("  - Personaje: " + personaje.getNombre());
 
-                Nodo<String> nodoAtributo = personaje.getAtributos().getHead();
-                while (nodoAtributo != null) {
-                    System.out.println("    * " + nodoAtributo.getElement());
-                    nodoAtributo = nodoAtributo.getNext();
+                NodoArray[] atributosArray = personaje.getAtributos().getArray();
+                for (int i = 0; i < atributosArray.length; i++) {
+                    NodoArray atributoNodo = atributosArray[i];
+                    if (atributoNodo != null) {
+                        System.out.println("    * " + atributoNodo.getElement());
+                    } else {
+                        System.out.println("    * none");
+                    }
                 }
                 nodoPersona = nodoPersona.getNext();
             }
             nodoCasa = nodoCasa.getNext();
         }
     }
-    
+
     private String leerArchivoJson(String filePath) throws IOException {
 //  Con este metodo busco transcribir el archivo json de forma tal que pueda utilizar su informacion
-    StringBuilder contenidoJson = new StringBuilder();
-    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-        String linea;
-        while ((linea = reader.readLine()) != null) {
+        StringBuilder contenidoJson = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
 //            se agrega el salto de linea para mantener el formato original del archivo
-            contenidoJson.append(linea).append("\n");
+                contenidoJson.append(linea).append("\n");
+            }
         }
+        JOptionPane.showMessageDialog(null, "Arhivo cargado con éxito");
+        return contenidoJson.toString();
     }
-    JOptionPane.showMessageDialog(null, "Arhivo cargado con éxito");
-    return contenidoJson.toString();
-}
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
+        //</editor-fold>
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new Interfaz1().setVisible(true);
-        }
-    });
-}
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Interfaz1().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCargarArchivo;

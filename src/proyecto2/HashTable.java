@@ -1,26 +1,29 @@
+
 package proyecto2;
 
+import Clases.NodoTree;
 import Clases.Persona;
 
 public class HashTable implements IHashTable {
 
     static final int max = 53; // Tamaño máximo de la tabla hash
     private int size;
-    private Persona[] table;
+    private NodoTree[] table;
 
     public HashTable() {
         this.size = 0;
-        this.table = new Persona[max];
+        this.table = new NodoTree[max];
     }
 
     @Override
-    public Persona get(String key, boolean mote) {
+    public NodoTree get(String key, boolean mote) {
         int position = hash(key, false);
-        Persona persona = table[position];
+        NodoTree person = table[position];
+        Persona persona = (Persona)person.getElement();
 
         // Verificar si la persona en la posición coincide con la clave proporcionada
-        if (persona != null && (persona.getMote().equalsIgnoreCase(key) || (persona.getNombre() + persona.getNumeric()).equalsIgnoreCase(key))) {
-            return persona;
+        if (persona != null && (persona.getApodo().equalsIgnoreCase(key) || (persona.getNombre() + persona.getNumeric()).equalsIgnoreCase(key))) {
+            return person;
         }
         return null; // Retornar null si no hay coincidencia
     }
@@ -35,8 +38,9 @@ public class HashTable implements IHashTable {
     }
 
     @Override
-    public void add(Persona person, boolean mote) {
-        String key = mote ? person.getMote() : person.getNombre() + person.getNumeric();
+    public void add(NodoTree person, boolean mote) {
+        Persona persona = (Persona) person.getElement();
+        String key = mote ? persona.getApodo() : persona.getNombre() + persona.getNumeric();
         int position = hash(key, mote);
 
         if (table[position] == null) {
@@ -79,10 +83,11 @@ public class HashTable implements IHashTable {
         int i = 0;
         String auxKey;
         do {
-            Persona persona = table[position];
+            NodoTree person = table[position];
+            Persona persona = (Persona)person.getElement();
             if (persona == null) break;
 
-            auxKey = mote ? persona.getMote() : persona.getNombre() + persona.getNumeric();
+            auxKey = mote ? persona.getApodo() : persona.getNombre() + persona.getNumeric();
             if (auxKey.equalsIgnoreCase(key)) break;
 
             i++;
@@ -104,5 +109,25 @@ public class HashTable implements IHashTable {
             hash = (hash * 31) + key.charAt(i); // Función hash base 31
         }
         return Math.abs(hash);
+    }
+
+    @Override
+    public String[] getMatch(String key, boolean mote) {
+        String[] matches = new String[0];
+        for (NodoTree person : table){
+            Persona element = (Persona)person.getElement();
+            if (mote){
+                if(element != null && element.getApodo().contains(key)){
+                    matches = new String[matches.length+1];
+                    matches[matches.length-1] = element.getApodo();
+                }
+            } else {
+                if (element != null && (element.getNombre() + element.getNumeric()).contains(key)){
+                    matches = new String[matches.length+1];
+                    matches[matches.length-1] = element.getNombre() + element.getNumeric();
+                }
+            }
+        }
+        return matches;
     }
 }
