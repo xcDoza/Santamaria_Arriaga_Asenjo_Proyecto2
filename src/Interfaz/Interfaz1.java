@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import proyecto2.HashTable;
 
 /**
  *
@@ -32,12 +33,17 @@ public class Interfaz1 extends javax.swing.JFrame {
      * Creates new form Interfaz1
      */
     private Tree houseTree;
+    private VerRegistro verRegistroFrame;
+    private HashTable personaHashTable;
 
     Lista casas = new Lista();
 
     public Interfaz1() {
         initComponents();
         houseTree = new Tree();
+        personaHashTable = new HashTable(); // Inicializa la HashTable
+        verRegistroFrame = new VerRegistro();
+        verRegistroFrame.setPersonaHashTable(personaHashTable);
     }
 
     /**
@@ -51,6 +57,7 @@ public class Interfaz1 extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnCargarArchivo = new javax.swing.JButton();
+        VerRegistro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -65,6 +72,14 @@ public class Interfaz1 extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnCargarArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
+
+        VerRegistro.setText("VerRegistro");
+        VerRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerRegistroActionPerformed(evt);
+            }
+        });
+        getContentPane().add(VerRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -92,6 +107,11 @@ public class Interfaz1 extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnCargarArchivoActionPerformed
+
+    private void VerRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerRegistroActionPerformed
+        verRegistroFrame.poblarComboBox();
+        verRegistroFrame.setVisible(true);
+    }//GEN-LAST:event_VerRegistroActionPerformed
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
         ListaArray atributosUnicos = new ListaArray(100); // Tamaño inicial grande para manejar expansión
@@ -164,6 +184,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                     }
                 }
                 casa.addPersonaje(persona);
+                personaHashTable.add(persona, true);//aniadimos personas a la hashtable
             }
             casas.insertFinal(casa);
         }
@@ -258,6 +279,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton VerRegistro;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

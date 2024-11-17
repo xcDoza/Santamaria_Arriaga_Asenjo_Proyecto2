@@ -14,15 +14,25 @@ public class Persona {
     private String nombre;
     private String apodo;
     private ListaArray atributos; // Cambiado a ListaArray
+    private int numeric; //creo que esto es lo que buscan con el metodo numeric para personas con el mismo nombre
 
     public Persona(String nombre, String apodo, int maxAtributos) {
         this.nombre = nombre;
         this.apodo = apodo;
         this.atributos = new ListaArray(maxAtributos); // Tamaño fijo
+        this.numeric = 0;//para su incremento si es necesario
         // Inicializar con "none" en todas las posiciones
         for (int i = 0; i < maxAtributos; i++) {
             atributos.insertFinal("none");
         }
+    }
+
+    public int getNumeric() {
+        return numeric;
+    }
+
+    public void setNumeric(int numeric) {
+        this.numeric = numeric;
     }
 
     public void setAtributo(int index, String atributo) {
