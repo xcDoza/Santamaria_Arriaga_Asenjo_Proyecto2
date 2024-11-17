@@ -74,7 +74,7 @@ public class VerRegistro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //metodo para establecer personaHashtable desde otra clase
-    public void setPersonaHashTable(HashTable personaHashTable){
+    public void setPersonaHashTable(HashTable personaHashTable) {
         this.personaHashTable = personaHashTable;
     }
 
@@ -84,7 +84,8 @@ public class VerRegistro extends javax.swing.JFrame {
         for (int i = 0; i < personaHashTable.getMax(); i++) {
             Persona persona = (Persona) personaHashTable.getTable()[i];//accede directamente al array de la tabla
             if (persona != null) {
-                Nodos.addItem(persona.getNombre());
+                String key = persona.getNombre() + persona.getNumeric();
+                Nodos.addItem(key);
             }
         }
     }
@@ -98,13 +99,14 @@ public class VerRegistro extends javax.swing.JFrame {
                 StringBuilder info = new StringBuilder();
                 info.append("Nombre: ").append(persona.getNombre()).append("\n");
                 info.append("Apodo: ").append(persona.getApodo()).append("\n");
+                
                 ListaArray atributos = persona.getAtributos();
                 for (int i = 0; i < atributos.getMaxSize(); i++) {
                     info.append(atributos.toStringAt(i)).append("\n");
                 }
                 Informacion.setText(info.toString());
-            }else{
-                Informacion.setText("Informacion no disponible");
+            } else {
+                Informacion.setText("Informacion no disponible.");
             }
         }
     }//GEN-LAST:event_NodosActionPerformed

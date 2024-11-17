@@ -165,7 +165,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 JsonArray atributosArray = personajeObject.getAsJsonArray(nombrePersonaje);
 
                 Persona persona = new Persona(nombrePersonaje, "", atributosUnicos.getSize());
-
+                
                 // Rellenar atributos
                 NodoArray[] atributosArrayPersona = persona.getAtributos().getArray();
                 for (int i = 0; i < atributosUnicos.getSize(); i++) {
@@ -184,7 +184,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                     }
                 }
                 casa.addPersonaje(persona);
-                personaHashTable.add(persona, true);//aniadimos personas a la hashtable
+                personaHashTable.add(persona, false);//aniadimos personas a la hashtable
             }
             casas.insertFinal(casa);
         }
