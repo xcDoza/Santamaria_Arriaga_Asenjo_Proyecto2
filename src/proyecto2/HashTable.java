@@ -67,7 +67,7 @@ public class HashTable implements IHashTable {
     public int getMax() {
         return max;
     }
-
+    
     /**
      * Método hash para calcular la posición en la tabla
      * @param key Clave para hashear
@@ -89,7 +89,6 @@ public class HashTable implements IHashTable {
 
             auxKey = mote ? persona.getApodo() : persona.getNombre() + persona.getNumeric();
             if (auxKey.equalsIgnoreCase(key)) break;
-
             i++;
             position = (position + i * i) % max;
         } while (table[position] != null);

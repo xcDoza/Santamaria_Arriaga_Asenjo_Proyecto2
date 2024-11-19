@@ -14,7 +14,7 @@ public class Persona {
     private String nombre;
     private String apodo;
     private ListaArray atributos; // Cambiado a ListaArray
-
+    
     public Persona(String nombre, String apodo, int maxAtributos) {
         this.nombre = nombre;
         this.apodo = apodo;
@@ -25,6 +25,14 @@ public class Persona {
         }
     }
 
+    public String getNumeric() {
+        return getAtributo(3); // tengo que confirmar el indice de esto
+    }
+    
+    public String getTitle(){
+        return getAtributo(5); // tengo que confirmar el indice de esto
+    }
+    
     public void setAtributo(int index, String atributo) {
         if (index >= 0 && index < atributos.getMaxSize()) {
             atributos.getArray()[index].setElement(atributo);

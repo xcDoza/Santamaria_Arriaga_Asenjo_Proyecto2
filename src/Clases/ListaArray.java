@@ -1,12 +1,12 @@
 /**
  * Clase ListaArray junto con sus primitivas
- * 
+ *
  * @author Sebastián Arriaga
  */
-
 package Clases;
 
 public class ListaArray {
+
     private Integer head;
     private NodoArray[] array;
     private int size, maxSize;
@@ -49,10 +49,10 @@ public class ListaArray {
     public void setMaxSize(int maxSize) {
         this.maxSize = maxSize;
     }
-    
+
     public NodoArray insertBegin(Object element) {
         NodoArray nodo = new NodoArray(element);
-        if(getSize() >= getMaxSize()) {
+        if (getSize() >= getMaxSize()) {
             System.out.println("El maximo tamaño ha sido alcanzado");
             return null;
         } else {
@@ -72,7 +72,7 @@ public class ListaArray {
             return nodo;
         }
     }
-    
+
     public NodoArray[] cloneArray() {
         NodoArray[] newArray = new NodoArray[getArray().length + 1];
         for (int i = 0; i < getArray().length; i++) {
@@ -80,7 +80,7 @@ public class ListaArray {
         }
         return newArray;
     }
-    
+
     public int searchSpace() {
         for (int i = 0; i < getArray().length; i++) {
             if (getArray()[i] == null) {
@@ -92,7 +92,7 @@ public class ListaArray {
 
     public NodoArray insertFinal(Object element) {
         NodoArray nodo = new NodoArray(element);
-        if(getSize() >= getMaxSize()) {
+        if (getSize() >= getMaxSize()) {
             System.out.println("El maximo tamaño ha sido alcanzado");
             return null;
         } else {
@@ -103,15 +103,15 @@ public class ListaArray {
                 if (position == -1) {
                     NodoArray[] newArray = cloneArray();
                     Integer pointer = getHead();
-                    while(newArray[pointer].getNext() != null) {
+                    while (newArray[pointer].getNext() != null) {
                         pointer = newArray[pointer].getNext();
                     }
-                    newArray[pointer].setNext(newArray.length -1);
+                    newArray[pointer].setNext(newArray.length - 1);
                     newArray[newArray.length - 1] = nodo;
                     setArray(newArray);
                 } else {
                     Integer pointer = getHead();
-                    while(getArray()[pointer].getNext() != null) {
+                    while (getArray()[pointer].getNext() != null) {
                         pointer = getArray()[pointer].getNext();
                     }
                     getArray()[pointer].setNext(position);
@@ -122,7 +122,6 @@ public class ListaArray {
             return nodo;
         }
     }
-
 
     public NodoArray deleteBegin() {
         if (isEmpty()) {
@@ -144,7 +143,7 @@ public class ListaArray {
             return null;
         } else {
             Integer pointer = getHead(); //2
-            while(getArray()[getArray()[pointer].getNext()].getNext() != null) {
+            while (getArray()[getArray()[pointer].getNext()].getNext() != null) {
                 pointer = getArray()[pointer].getNext();
             }
             Integer pointer2 = getArray()[pointer].getNext();
@@ -156,16 +155,26 @@ public class ListaArray {
         }
     }
 
+    //esto devuelve el valor del nodo en la posición especificada en minúsculas y sin espacios en blanco
+    //metodo de la lista implementado ahora con listaarray
+    public String toStringAt(int index) {
+        if (index >= 0 && index < getMaxSize() && array[index] != null) {
+            String valor = (String) array[index].getElement();
+            return valor.toLowerCase().trim();
+        }
+        return "nada"; //si el índice es inválido o el elemento es nulo
+    }
+
     public boolean isEmpty() {
         return getHead() == null;
     }
- 
+
     public void print() {
         Integer pointer = getHead();
         while (pointer != null) {
-            System.out.println("["+getArray()[pointer].getElement()+"]");
+            System.out.println("[" + getArray()[pointer].getElement() + "]");
             pointer = getArray()[pointer].getNext();
         }
     }
-    
+
 }
