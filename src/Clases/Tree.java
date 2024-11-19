@@ -4,6 +4,9 @@
  */
 package Clases;
 
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+
 /**
  *
  * @author sebas
@@ -62,6 +65,54 @@ public class Tree {
         }
         newSons[newSons.length - 1] = nodo;
         father.setSons(newSons);
+    }
+    
+    /**
+     * Método para convertir el árbol en un grafo de GraphStream.
+     */
+    public Graph toGraph() {
+        Graph graph = new SingleGraph("Tree Graph");
+        if (isEmpty()) {
+            System.out.println("El árbol está vacío. No se puede mostrar.");
+            return graph;
+        }
+
+        // Recorrer el árbol y añadir nodos y aristas al grafo
+        addNodeToGraph(graph, root, null);
+
+        // Configurar estilo básico del grafo
+        graph.setAttribute("ui.stylesheet", 
+            "node { size: 20px; fill-color: blue; text-alignment: center; text-size: 15px; }" +
+            "edge { fill-color: black; }");
+        graph.setAttribute("ui.quality");
+        graph.setAttribute("ui.antialias");
+        return graph;
+    }
+
+    /**
+     * Método auxiliar para recorrer el árbol y añadir nodos/aristas al grafo.
+     */
+    private void addNodeToGraph(Graph graph, NodoTree nodo, String parentId) {
+        if (nodo == null) return;
+
+        String nodeId = String.valueOf(nodo.getKey());
+        graph.addNode(nodeId).setAttribute("ui.label", nodo.getElement().toString());
+
+        if (parentId != null) {
+            graph.addEdge(parentId + "-" + nodeId, parentId, nodeId);
+        }
+
+        for (NodoTree child : nodo.getSons()) {
+            addNodeToGraph(graph, child, nodeId);
+        }
+    }
+
+    /**
+     * Método para mostrar gráficamente el árbol utilizando GraphStream.
+     */
+    public void displayGraph() {
+        Graph graph = toGraph();
+        graph.display();
     }
 
     public void print(NodoTree root) {
