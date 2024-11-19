@@ -13,6 +13,7 @@ public class Nodo<T> {
     
     private T element;
     private Nodo next;
+    private Par element1;
 
     public Nodo(T element) {
         this.element = element;
@@ -33,6 +34,14 @@ public class Nodo<T> {
 
     public void setNext(Nodo next) {
         this.next = next;
+    }
+
+    public Par getElement1() {
+        return element1;
+    }
+
+    public void setElement1(Par element1) {
+        this.element1 = element1;
     }
     
 }
