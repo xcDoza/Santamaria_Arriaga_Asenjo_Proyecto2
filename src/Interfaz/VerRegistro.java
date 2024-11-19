@@ -82,7 +82,7 @@ public class VerRegistro extends javax.swing.JFrame {
     public void poblarComboBox() {
         Nodos.removeAllItems(); // Limpia el ComboBox
         for (int i = 0; i < personaHashTable.getMax(); i++) {
-            Persona persona = (Persona) personaHashTable.getTable()[i];//accede directamente al array de la tabla
+            Persona persona = (Persona) personaHashTable.getTable()[i].getElement();//accede directamente al array de la tabla
             if (persona != null) {
                 String key = persona.getNombre() + persona.getNumeric();
                 Nodos.addItem(key);
@@ -94,7 +94,7 @@ public class VerRegistro extends javax.swing.JFrame {
     private void NodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NodosActionPerformed
         String selectedNodoKey = (String) Nodos.getSelectedItem();
         if (selectedNodoKey != null) {
-            Persona persona = personaHashTable.get(selectedNodoKey);
+            Persona persona = (Persona)personaHashTable.get(selectedNodoKey, false).getElement();
             if (persona != null) {
                 StringBuilder info = new StringBuilder();
                 info.append("Nombre: ").append(persona.getNombre()).append("\n");

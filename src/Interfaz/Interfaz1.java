@@ -10,6 +10,8 @@ import Clases.Casa;
 import Clases.ListaArray;
 import Clases.Nodo;
 import Clases.NodoArray;
+import proyecto2.HashTableTitles;
+import proyecto2.HashTable;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
@@ -37,6 +39,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private HashTable personaHashTable;
 
     Lista casas = new Lista();
+    
 
     public Interfaz1() {
         initComponents();
