@@ -20,10 +20,12 @@ public class HashTable implements IHashTable {
         int position = hash(key, false);
         NodoTree person = table[position];
         Persona persona = (Persona)person.getElement();
-
         // Verificar si la persona en la posición coincide con la clave proporcionada
-        if (persona != null && (persona.getApodo().equalsIgnoreCase(key) || (persona.getNombre() + persona.getNumeric()).equalsIgnoreCase(key))) {
-            return person;
+        if (persona != null) {
+            String expectedKey = persona.getNombre() + persona.getNumeric();
+            if (expectedKey.equalsIgnoreCase(key) || persona.getApodo().equalsIgnoreCase(key)) {
+                return person;
+            }
         }
         return null; // Retornar null si no hay coincidencia
     }
@@ -66,6 +68,11 @@ public class HashTable implements IHashTable {
     @Override
     public int getMax() {
         return max;
+    }
+    
+    //con esto obtenemos el array table
+    public NodoTree[] getTable() {
+        return table;
     }
     
     /**

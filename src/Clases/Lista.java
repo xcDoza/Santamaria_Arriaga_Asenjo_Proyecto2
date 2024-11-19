@@ -140,6 +140,18 @@ public class Lista<T> {
         }
         return sortedList;
     }
+    
+    public Nodo deleteBegin() {
+        if (esVacio()) {
+            System.out.println("Error list is empty");
+            return null;
+        } else {
+            Nodo pointer = getHead();
+            setHead(pointer.getNext());
+            pointer.setNext(null);
+            return pointer;
+        }
+    }
 
     //con esto se imprimen los valores de los nodos de la lista
     public void imprimir() {
