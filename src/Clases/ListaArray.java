@@ -155,8 +155,20 @@ public class ListaArray {
         }
     }
 
+    // Método para buscar un atributo por su clave
+    public String buscarPorClave(String clave) {
+        for (NodoArray nodo : array) {
+            if (nodo != null && nodo.getElement() instanceof String) {
+                String elemento = (String) nodo.getElement();
+                if (elemento.startsWith(clave + ":")) {
+                    return elemento.substring(clave.length() + 2).trim(); // Extraer valor después de "clave:"
+                }
+            }
+        }
+        return null; 
+    }
+
     //esto devuelve el valor del nodo en la posición especificada en minúsculas y sin espacios en blanco
-    //metodo de la lista implementado ahora con listaarray
     public String toStringAt(int index) {
         if (index >= 0 && index < getMaxSize() && array[index] != null) {
             String valor = (String) array[index].getElement();

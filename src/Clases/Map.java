@@ -7,24 +7,26 @@ package Clases;
 /**
  *
  * @author sebas
+ * @param <K>
+ * @param <V>
  */
-public class Map <T>{
+public class Map<K, V> {
 
-    private Lista pares;
+    public Lista<Par<K, V>> pares;
 
     public Map() {
-        this.pares = new Lista();
+        this.pares = new Lista<>();
     }
 
-    public void put(T clave, T valor) {
+    public void put(K clave, V valor) {
         if (clave == null) {
             throw new IllegalArgumentException("La clave no puede ser null");
         }
-        Nodo current = pares.getHead();
+        Nodo<Par<K, V>> current = pares.getHead();
 
         // Verificar si la clave ya existe
         while (current != null) {
-            Par parExistente = current.getElement1();
+            Par<K, V> parExistente = current.getElement();
             if (parExistente != null && clave.equals(parExistente.getClave())) {
                 parExistente.setValor(valor); // Actualizar valor
                 return;
@@ -32,18 +34,18 @@ public class Map <T>{
             current = current.getNext();
         }
         // Insertar nuevo par si la clave no existe
-        pares.insertFinal(new Par(clave, valor));
+        pares.insertFinal(new Par<>(clave, valor));
     }
 
-    public Object get(T clave) {
+    public V get(K clave) {
         if (clave == null) {
             throw new IllegalArgumentException("La clave no puede ser null");
         }
-        Nodo current = pares.getHead();
+        Nodo<Par<K, V>> current = pares.getHead();
 
         // Buscar el nodo con el par correspondiente a la clave
         while (current != null) {
-            Par par = current.getElement1();
+            Par<K, V> par = current.getElement();
             if (par != null && clave.equals(par.getClave())) {
                 return par.getValor(); // Retornar el valor si la clave coincide
             }
@@ -52,10 +54,10 @@ public class Map <T>{
         return null; // Retornar null si la clave no existe en el mapa
     }
 
-    public boolean containsKey(T clave) {
-        Nodo current = pares.getHead();
+    public boolean containsKey(K clave) {
+        Nodo<Par<K, V>> current = pares.getHead();
         while (current != null) {
-            if (current.getElement1().equals(clave)) {
+            if (clave.equals(current.getElement().getClave())) {
                 return true;
             }
             current = current.getNext();
@@ -63,20 +65,19 @@ public class Map <T>{
         return false;
     }
 
-    public void remove(T clave) {
+    public void remove(K clave) {
         if (clave == null) {
             throw new IllegalArgumentException("La clave no puede ser null");
         }
-        Nodo prev = null;
-        Nodo current = pares.getHead();
+        Nodo<Par<K, V>> prev = null;
+        Nodo<Par<K, V>> current = pares.getHead();
 
         while (current != null) {
-            if (clave.equals(current.getElement1())) {  // Usar equals de la clave
+            if (clave.equals(current.getElement().getClave())) {
                 if (prev == null) {
                     pares.deleteBegin();
                 } else {
                     prev.setNext(current.getNext());
-                    current.setNext(null);
                 }
                 return;
             }
@@ -87,5 +88,9 @@ public class Map <T>{
 
     public int size() {
         return pares.getSize();
+    }
+    
+    public Lista<Par<K, V>> entrySet() {
+    return pares;
     }
 }

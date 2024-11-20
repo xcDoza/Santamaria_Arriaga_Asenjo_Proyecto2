@@ -8,31 +8,33 @@ package Clases;
  * Constructor toma un dato de tipo estación junto con un integer
  * 
  * @author sebas
- * @param <T>
+ * @param <K>
+ * @param <V>
  */
 
-public class Par <T>{
-    private T clave;
-    private T valor;
+public class Par<K, V> {
+    private K clave;
+    private V valor;
 
-    public Par(T clave, T valor) {
+    public Par(K clave, V valor) {
         this.clave = clave;
         this.valor = valor;
     }
 
-    public T getClave() {
+    public K getClave() {
         return clave;
     }
 
-    public void setClave(T clave) {
+    public void setClave(K clave) {
         this.clave = clave;
     }
 
-    public T getValor() {
+    public V getValor() {
         return valor;
     }
 
-    public void setValor(T valor) {
+    public void setValor(V valor) {
         this.valor = valor;
     }
+    
 }
