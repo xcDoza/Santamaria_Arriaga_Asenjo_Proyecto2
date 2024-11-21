@@ -165,7 +165,7 @@ public class ListaArray {
                 }
             }
         }
-        return null; 
+        return null;
     }
 
     //esto devuelve el valor del nodo en la posición especificada en minúsculas y sin espacios en blanco
