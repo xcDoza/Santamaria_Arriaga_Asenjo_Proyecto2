@@ -4,7 +4,10 @@
  */
 package Interfaz;
 
+import Clases.NodoTree;
 import Clases.Persona;
+import Clases.Tree;
+import proyecto2.HashTable;
 
 /**
  *
@@ -12,11 +15,16 @@ import Clases.Persona;
  */
 public class Search extends javax.swing.JFrame {
     
+    private HashTable personaHashTable;
+    private HashTable moteHashTable;
+    private int activeSearch;
+    
     /**
      * Creates new form Search
      */
     public Search() {
         initComponents();
+        SearchResults.removeAll();
     }
 
     /**
@@ -34,8 +42,8 @@ public class Search extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         SearchResults = new javax.swing.JList<>();
         SearchBtn = new javax.swing.JButton();
-        ResultSelector = new javax.swing.JComboBox<>();
         SelectResultBtn = new javax.swing.JButton();
+        SelectSearchType = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -48,10 +56,14 @@ public class Search extends javax.swing.JFrame {
                 SearchTypeActionPerformed(evt);
             }
         });
-        jPanel1.add(SearchType, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, -1, -1));
+        jPanel1.add(SearchType, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 50, 90, 30));
 
-        SearchText.setText("jTextField1");
-        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 260, 30));
+        SearchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchTextActionPerformed(evt);
+            }
+        });
+        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 460, 40));
 
         SearchResults.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -60,33 +72,89 @@ public class Search extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(SearchResults);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 200, 120));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 460, 260));
 
-        SearchBtn.setText("jButton1");
-        jPanel1.add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, 80, 30));
+        SearchBtn.setText("Buscar");
+        SearchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 130, 40));
 
-        ResultSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(ResultSelector, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 180, 130, -1));
+        SelectResultBtn.setText("Seleccionar");
+        SelectResultBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelectResultBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(SelectResultBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 390, 160, 50));
 
-        SelectResultBtn.setText("jButton2");
-        jPanel1.add(SelectResultBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, 130, -1));
+        SelectSearchType.setText("Seleccionar");
+        SelectSearchType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelectSearchTypeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(SelectSearchType, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 90, 90, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setPersonaHashTable(HashTable personaHashTable) {
+        this.personaHashTable = personaHashTable;
+    }
+
+    public void setMoteHashTable(HashTable moteHashTable) {
+        this.moteHashTable = moteHashTable;
+    }
+    
         //metodo para poblar el ComboBox con los nombres de las personas
     public void poblarSearchType() {
         SearchType.removeAllItems(); // Limpia el ComboBox
         SearchType.addItem("Nombre + numeral");
         SearchType.addItem("Mote");
-        SearchType.addItem("Título de nobleza");
     }
     
     private void SearchTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTypeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SearchTypeActionPerformed
+
+    private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchTextActionPerformed
+
+    private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
+        switch (activeSearch) {
+            case 0:
+                SearchResults.setListData(personaHashTable.getMatch(SearchText.getText(), false));
+            default:
+                SearchResults.setListData(moteHashTable.getMatch(SearchText.getText(), true));;
+        }
+    }//GEN-LAST:event_SearchBtnActionPerformed
+
+    private void SelectResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectResultBtnActionPerformed
+        NodoTree result;
+        Tree subTree = new Tree();
+        switch (activeSearch) {
+            case 0:
+                result = personaHashTable.get(SearchResults.getSelectedValue(), false);
+            default:
+                result = moteHashTable.get(SearchResults.getSelectedValue(), true);
+        }
+        subTree.setRoot(result);
+        subTree.displayGraph();
+    }//GEN-LAST:event_SelectResultBtnActionPerformed
+
+    private void SelectSearchTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectSearchTypeActionPerformed
+        if(SearchType.getSelectedItem().equals("Nombre + numeral")){
+            activeSearch = 0;
+        } else {
+            activeSearch = 1;
+        }
+    }//GEN-LAST:event_SelectSearchTypeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,12 +192,12 @@ public class Search extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> ResultSelector;
     private javax.swing.JButton SearchBtn;
     private javax.swing.JList<String> SearchResults;
     private javax.swing.JTextField SearchText;
     private javax.swing.JComboBox<String> SearchType;
     private javax.swing.JButton SelectResultBtn;
+    private javax.swing.JButton SelectSearchType;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
