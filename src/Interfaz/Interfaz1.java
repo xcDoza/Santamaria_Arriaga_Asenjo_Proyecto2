@@ -41,6 +41,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private Tree houseTree;
     private VerRegistro verRegistroFrame;
     private HashTable personaHashTable;
+    private ListaGeneracion ListaGeneracion;
 
     Lista casas = new Lista();
 
@@ -66,6 +67,7 @@ public class Interfaz1 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnCargarArchivo = new javax.swing.JButton();
         VerRegistro = new javax.swing.JButton();
+        VerGeneraciones = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -88,6 +90,14 @@ public class Interfaz1 extends javax.swing.JFrame {
             }
         });
         getContentPane().add(VerRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
+
+        VerGeneraciones.setText("Ver Generaciones");
+        VerGeneraciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerGeneracionesActionPerformed(evt);
+            }
+        });
+        getContentPane().add(VerGeneraciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -121,6 +131,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         verRegistroFrame.poblarComboBox();
         verRegistroFrame.setVisible(true);
     }//GEN-LAST:event_VerRegistroActionPerformed
+
+    private void VerGeneracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerGeneracionesActionPerformed
+        ListaGeneracion listaGeneracionForm = new ListaGeneracion(houseTree);
+        listaGeneracionForm.setVisible(true);
+    }//GEN-LAST:event_VerGeneracionesActionPerformed
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
         ListaArray atributosUnicos = new ListaArray(100); // Tamaño inicial grande para manejar expansión
@@ -198,12 +213,13 @@ public class Interfaz1 extends javax.swing.JFrame {
             casas.insertFinal(casa);
         }
 
-//        imprimirCasas();
+        imprimirCasas();
         ArbolGenealogico arbol = new ArbolGenealogico();
         arbol.construirArbol(casas);
 //        arbol.imprimirArbol(); // Para mostrarlo en texto
 //        arbol.mostrarArbol();  // Para visualizar con graphstream (no sirve)
-        agregarNodosAHHashTable(arbol.getArbolGenealogico().getRoot()); // Usa el método getter
+        agregarNodosAHHashTable(arbol.getArbolGenealogico().getRoot()); // Usa el metodo getter
+        houseTree = arbol.getArbolGenealogico();//usaremos este arbol para todo lo demas, posibles cambios
 
         imprimirContenidoHashTable();
     }
@@ -232,16 +248,16 @@ public class Interfaz1 extends javax.swing.JFrame {
 
     private void agregarNodosAHHashTable(NodoTree nodo) {
         if (nodo == null) {
-            System.out.println("Nodo es nulo, no se añade a la HashTable.");
+            System.out.println("Nodo es nulo, no se aniade a la HashTable.");
             return;
         }
         Persona persona = (Persona) nodo.getElement();
         if (persona == null) {
-            System.out.println("Elemento de nodo es nulo, no se añade a la HashTable.");
+            System.out.println("Elemento de nodo es nulo, no se aniade a la HashTable.");
             return;
         }
         personaHashTable.add(nodo, false);
-        System.out.println("Aniadido a HashTable: " + persona.getNombre()); // Mensaje de depuración
+        System.out.println("Aniadido a HashTable: " + persona.getNombre());
 
         for (NodoTree hijo : nodo.getSons()) {
             agregarNodosAHHashTable(hijo);
@@ -284,7 +300,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 contenidoJson.append(linea).append("\n");
             }
         }
-        JOptionPane.showMessageDialog(null, "Arhivo cargado con éxito");
+        JOptionPane.showMessageDialog(null, "Arhivo cargado con exito");
         return contenidoJson.toString();
     }
 
@@ -324,6 +340,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton VerGeneraciones;
     private javax.swing.JButton VerRegistro;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JPanel jPanel1;
