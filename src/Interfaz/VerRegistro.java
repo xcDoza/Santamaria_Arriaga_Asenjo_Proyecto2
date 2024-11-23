@@ -5,7 +5,10 @@
 package Interfaz;
 
 import Clases.ListaArray;
+import Clases.NodoTree;
 import Clases.Persona;
+import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 import proyecto2.HashTable;
 
 /**
@@ -80,33 +83,49 @@ public class VerRegistro extends javax.swing.JFrame {
 
     //metodo para poblar el ComboBox con los nombres de las personas
     public void poblarComboBox() {
-        Nodos.removeAllItems(); // Limpia el ComboBox
-        for (int i = 0; i < personaHashTable.getMax(); i++) {
-            Persona persona = (Persona) personaHashTable.getTable()[i].getElement();//accede directamente al array de la tabla
-            if (persona != null) {
-                String key = persona.getNombre() + persona.getNumeric();
-                Nodos.addItem(key);
+        Nodos.removeAllItems(); //limpia el ComboBox
+        System.out.println("Llenando el ComboBox..."); // Mensaje de depuración
+        for (NodoTree nodo : personaHashTable.getTable()) {
+            if (nodo != null) {
+                Persona persona = (Persona) nodo.getElement();
+                if (persona != null) {
+                    Nodos.addItem(persona.getNombre()); // Añade solo el nombre 
+                    System.out.println("Aniadido al ComboBox: " + persona.getNombre()); // Mensaje de depuración }
+                } else {
+                    System.out.println("Persona es nula en nodo: " + nodo.getKey());
+                }
+            } else {
+                System.out.println("Nodo es nulo en la HashTable");
             }
         }
     }
 
 
     private void NodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NodosActionPerformed
-        String selectedNodoKey = (String) Nodos.getSelectedItem();
-        if (selectedNodoKey != null) {
-            Persona persona = (Persona)personaHashTable.get(selectedNodoKey, false).getElement();
-            if (persona != null) {
-                StringBuilder info = new StringBuilder();
-                info.append("Nombre: ").append(persona.getNombre()).append("\n");
-                info.append("Apodo: ").append(persona.getApodo()).append("\n");
-                
-                ListaArray atributos = persona.getAtributos();
-                for (int i = 0; i < atributos.getMaxSize(); i++) {
-                    info.append(atributos.toStringAt(i)).append("\n");
+        String selectedName = (String) Nodos.getSelectedItem();
+        if (selectedName != null) {
+            for (NodoTree nodo : personaHashTable.getTable()) {
+                if (nodo != null) {
+                    Persona persona = (Persona) nodo.getElement();
+                    if (persona.getNombre().equals(selectedName)) {
+                        String key = persona.getNombre() + persona.getNumeric();
+                        NodoTree encontrado = personaHashTable.get(key, false); // Usa la clave completa 
+                        if (encontrado != null) {
+                            Persona personaEncontrada = (Persona) encontrado.getElement();
+                            StringBuilder info = new StringBuilder();
+                            info.append("Nombre: ").append(personaEncontrada.getNombre()).append("\n");
+                            info.append("Apodo: ").append(personaEncontrada.getApodo()).append("\n");
+                            ListaArray atributos = personaEncontrada.getAtributos();
+                            for (int i = 0; i < atributos.getMaxSize(); i++) {
+                                info.append(atributos.toStringAt(i)).append("\n");
+                            }
+                            Informacion.setText(info.toString());
+                        } else {
+                            Informacion.setText("Informacion no disponible.");
+                        }
+                        break;
+                    }
                 }
-                Informacion.setText(info.toString());
-            } else {
-                Informacion.setText("Informacion no disponible.");
             }
         }
     }//GEN-LAST:event_NodosActionPerformed

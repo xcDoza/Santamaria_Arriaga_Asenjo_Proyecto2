@@ -38,8 +38,13 @@ public class ArbolGenealogico {
             Nodo<Persona> personajeNodo = casa.getPersonajes().getHead();
             while (personajeNodo != null) {
                 Persona persona = personajeNodo.getElement();
-                String nombreLimpio = limpiarNombre(persona.getNombre());
-                mapaPersonas.put(nombreLimpio, persona); // Guardar en el mapa
+                if (persona == null) {
+                    System.out.println("Persona nula encontrada, no se aniade al mapa.");
+                } else {
+                    String nombreLimpio = limpiarNombre(persona.getNombre());
+                    mapaPersonas.put(nombreLimpio, persona); // Guardar en el mapa 
+                    System.out.println("Persona aniadida al mapa: " + nombreLimpio);
+                }
                 personajeNodo = personajeNodo.getNext();
             }
             casaNodo = casaNodo.getNext();
@@ -55,14 +60,14 @@ public class ArbolGenealogico {
         // Crear nodo raíz
         NodoTree nodoRaiz = arbolGenealogico.insert(fundador, -1, null);
         if (nodoRaiz == null) {
-            System.out.println("No se pudo crear el nodo raíz.");
+            System.out.println("No se pudo crear el nodo raiz.");
             return;
         }
         arbolGenealogico.setRoot(nodoRaiz);
 
         // Paso 3: Construir árbol recursivamente
         construirHijos(nodoRaiz, fundador);
-        System.out.println("Árbol construido:");
+        System.out.println("Arbol construido:");
         arbolGenealogico.printAllNodes(arbolGenealogico.getRoot(), "");
     }
 
@@ -121,4 +126,10 @@ public class ArbolGenealogico {
     public void mostrarArbol() {
         arbolGenealogico.displayGraph();
     }
+
+    //obtener el árbol genealógico 
+    public Tree getArbolGenealogico() {
+        return arbolGenealogico;
+    }
+
 }

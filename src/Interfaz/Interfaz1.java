@@ -106,6 +106,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 try {
                     String contenidoJson = leerArchivoJson(filePath);
                     parsearJson(contenidoJson);
+                    verRegistroFrame.poblarComboBox(); // Asegúrate de llamar a poblarComboBox después de parsear el JSON y añadir nodos a la HashTable
 
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -140,7 +141,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 }
             }
         }
-        System.out.println("Número total de atributos únicos: " + atributosUnicos.getSize());
+        System.out.println("Numero total de atributos unicos: " + atributosUnicos.getSize());
         return atributosUnicos;
     }
 
@@ -197,11 +198,14 @@ public class Interfaz1 extends javax.swing.JFrame {
             casas.insertFinal(casa);
         }
 
-        imprimirCasas();
+//        imprimirCasas();
         ArbolGenealogico arbol = new ArbolGenealogico();
         arbol.construirArbol(casas);
-        arbol.imprimirArbol(); // Para mostrarlo en texto
+//        arbol.imprimirArbol(); // Para mostrarlo en texto
 //        arbol.mostrarArbol();  // Para visualizar con graphstream (no sirve)
+        agregarNodosAHHashTable(arbol.getArbolGenealogico().getRoot()); // Usa el método getter
+
+        imprimirContenidoHashTable();
     }
 
 // Método para obtener el índice de un atributo en ListaArray
@@ -213,6 +217,35 @@ public class Interfaz1 extends javax.swing.JFrame {
             }
         }
         return -1; // No encontrado
+    }
+
+    private void imprimirContenidoHashTable() {
+        for (NodoTree nodo : personaHashTable.getTable()) {
+            if (nodo != null) {
+                Persona persona = (Persona) nodo.getElement();
+                System.out.println("En HashTable: " + persona.getNombre());
+            } else {
+                System.out.println("Nodo es nulo en la HashTable");
+            }
+        }
+    }
+
+    private void agregarNodosAHHashTable(NodoTree nodo) {
+        if (nodo == null) {
+            System.out.println("Nodo es nulo, no se añade a la HashTable.");
+            return;
+        }
+        Persona persona = (Persona) nodo.getElement();
+        if (persona == null) {
+            System.out.println("Elemento de nodo es nulo, no se añade a la HashTable.");
+            return;
+        }
+        personaHashTable.add(nodo, false);
+        System.out.println("Aniadido a HashTable: " + persona.getNombre()); // Mensaje de depuración
+
+        for (NodoTree hijo : nodo.getSons()) {
+            agregarNodosAHHashTable(hijo);
+        }
     }
 
     private void imprimirCasas() {

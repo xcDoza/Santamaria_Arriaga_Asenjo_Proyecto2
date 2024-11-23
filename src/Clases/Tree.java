@@ -74,7 +74,7 @@ public class Tree {
     }
 
     public void increaseSons(NodoTree father, NodoTree nodo) {
-        System.out.println("Añadiendo hijo: " + nodo.getElement() + " al padre: " + father.getElement());
+        System.out.println("Aniadiendo hijo: " + nodo.getElement() + " al padre: " + father.getElement());
 
         NodoTree[] newSons = new NodoTree[father.getSons().length + 1];
         for (int i = 0; i < father.getSons().length; i++) {
@@ -90,7 +90,7 @@ public class Tree {
     public Graph toGraph() {
         Graph graph = new SingleGraph("Tree Graph");
         if (isEmpty()) {
-            System.out.println("El árbol está vacío. No se puede mostrar.");
+            System.out.println("El arbol esta vacio. No se puede mostrar.");
             return graph;
         }
 
