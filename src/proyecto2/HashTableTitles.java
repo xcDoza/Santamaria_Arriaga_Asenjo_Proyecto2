@@ -17,7 +17,7 @@ public class HashTableTitles{
     public int size;
     public Lista[] table;
 
-    public HashTableTitles(int size, Lista[] table) {
+    public HashTableTitles() {
         this.size = 0;
         this.table = new Lista[max];
         int i = 0;

@@ -40,7 +40,10 @@ public class Interfaz1 extends javax.swing.JFrame {
      */
     private Tree houseTree;
     private VerRegistro verRegistroFrame;
+    private Search searchFrame;
     private HashTable personaHashTable;
+    private HashTable moteHashTable;
+    private HashTableTitles titlesHashTable;
 
     Lista casas = new Lista();
 
@@ -50,7 +53,12 @@ public class Interfaz1 extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         houseTree = new Tree();
         personaHashTable = new HashTable(); // Inicializa la HashTable
+        moteHashTable = new HashTable(); // Inicializa la HashTable
+        titlesHashTable = new HashTableTitles(); // Inicializa la HashTable
         verRegistroFrame = new VerRegistro();
+        searchFrame = new Search();
+        searchFrame.setPersonaHashTable(personaHashTable);
+        searchFrame.setMoteHashTable(moteHashTable);
         verRegistroFrame.setPersonaHashTable(personaHashTable);
     }
 
@@ -66,6 +74,7 @@ public class Interfaz1 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnCargarArchivo = new javax.swing.JButton();
         VerRegistro = new javax.swing.JButton();
+        SearchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -88,6 +97,14 @@ public class Interfaz1 extends javax.swing.JFrame {
             }
         });
         getContentPane().add(VerRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
+
+        SearchBtn.setText("Buscar");
+        SearchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchBtnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 90, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -121,6 +138,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         verRegistroFrame.poblarComboBox();
         verRegistroFrame.setVisible(true);
     }//GEN-LAST:event_VerRegistroActionPerformed
+
+    private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
+        searchFrame.poblarSearchType();
+        searchFrame.setVisible(true);
+    }//GEN-LAST:event_SearchBtnActionPerformed
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
         ListaArray atributosUnicos = new ListaArray(100); // Tamaño inicial grande para manejar expansión
@@ -324,6 +346,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton SearchBtn;
     private javax.swing.JButton VerRegistro;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JPanel jPanel1;
