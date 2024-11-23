@@ -42,23 +42,40 @@ public class Tree {
     }
 
     public NodoTree insert(Object element, int fatherKey, NodoTree pointer) {
-        NodoTree nodo = new NodoTree(element, getKeyCounter());
-        if (isEmpty()) {
-            setRoot(nodo);
-        } else {
-            if (pointer.getKey() == fatherKey) {
-                increaseSons(pointer, nodo);
+        System.out.println("Insertando: " + element + " en nodo con clave padre: " + fatherKey);
+
+        if (pointer == null) {
+            if (fatherKey == -1) { // Caso especial: insertar la raíz
+                NodoTree nodo = new NodoTree(element, getKeyCounter());
+                setRoot(nodo);
+                keyCounter++;
+                return nodo;
             } else {
-                for (int i = 0; i < pointer.getSons().length; i++) {
-                    insert(element, fatherKey, pointer.getSons()[i]);
-                }
+                System.out.println("Puntero nulo y clave padre no es -1. No se puede insertar: " + element);
+                return null; // Nodo no válido
             }
         }
-        keyCounter++;
-        return nodo;
+
+        if (pointer.getKey() == fatherKey) {
+            NodoTree nodo = new NodoTree(element, getKeyCounter());
+            increaseSons(pointer, nodo);
+            keyCounter++;
+            return nodo;
+        }
+
+        for (NodoTree hijo : pointer.getSons()) {
+            NodoTree resultado = insert(element, fatherKey, hijo);
+            if (resultado != null) {
+                return resultado;
+            }
+        }
+
+        return null; // Si no se encontró el padre
     }
 
     public void increaseSons(NodoTree father, NodoTree nodo) {
+        System.out.println("Aniadiendo hijo: " + nodo.getElement() + " al padre: " + father.getElement());
+
         NodoTree[] newSons = new NodoTree[father.getSons().length + 1];
         for (int i = 0; i < father.getSons().length; i++) {
             newSons[i] = father.getSons()[i];
@@ -66,14 +83,14 @@ public class Tree {
         newSons[newSons.length - 1] = nodo;
         father.setSons(newSons);
     }
-    
+
     /**
      * Método para convertir el árbol en un grafo de GraphStream.
      */
     public Graph toGraph() {
         Graph graph = new SingleGraph("Tree Graph");
         if (isEmpty()) {
-            System.out.println("El árbol está vacío. No se puede mostrar.");
+            System.out.println("El arbol esta vacio. No se puede mostrar.");
             return graph;
         }
 
@@ -81,9 +98,9 @@ public class Tree {
         addNodeToGraph(graph, root, null);
 
         // Configurar estilo básico del grafo
-        graph.setAttribute("ui.stylesheet", 
-            "node { size: 20px; fill-color: blue; text-alignment: center; text-size: 15px; }" +
-            "edge { fill-color: black; }");
+        graph.setAttribute("ui.stylesheet",
+                "node { size: 20px; fill-color: blue; text-alignment: center; text-size: 15px; }"
+                + "edge { fill-color: black; }");
         graph.setAttribute("ui.quality");
         graph.setAttribute("ui.antialias");
         return graph;
@@ -93,7 +110,9 @@ public class Tree {
      * Método auxiliar para recorrer el árbol y añadir nodos/aristas al grafo.
      */
     private void addNodeToGraph(Graph graph, NodoTree nodo, String parentId) {
-        if (nodo == null) return;
+        if (nodo == null) {
+            return;
+        }
 
         String nodeId = String.valueOf(nodo.getKey());
         graph.addNode(nodeId).setAttribute("ui.label", nodo.getElement().toString());
@@ -125,4 +144,15 @@ public class Tree {
             }
         }
     }
+
+    public void printAllNodes(NodoTree node, String prefix) {
+        if (node == null) {
+            return;
+        }
+        System.out.println(prefix + "- " + node.getElement());
+        for (NodoTree hijo : node.getSons()) {
+            printAllNodes(hijo, prefix + "  ");
+        }
+    }
+
 }

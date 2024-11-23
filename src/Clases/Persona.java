@@ -8,13 +8,12 @@ package Clases;
  *
  * @author xc2do
  */
-
 public class Persona {
 
     private String nombre;
     private String apodo;
     private ListaArray atributos; // Cambiado a ListaArray
-    
+
     public Persona(String nombre, String apodo, int maxAtributos) {
         this.nombre = nombre;
         this.apodo = apodo;
@@ -28,11 +27,11 @@ public class Persona {
     public String getNumeric() {
         return getAtributo(3); // tengo que confirmar el indice de esto
     }
-    
-    public String getTitle(){
+
+    public String getTitle() {
         return getAtributo(5); // tengo que confirmar el indice de esto
     }
-    
+
     public void setAtributo(int index, String atributo) {
         if (index >= 0 && index < atributos.getMaxSize()) {
             atributos.getArray()[index].setElement(atributo);
@@ -69,4 +68,30 @@ public class Persona {
     public void setAtributos(ListaArray atributos) {
         this.atributos = atributos;
     }
+
+    @Override
+    public String toString() {
+        return nombre; // Devuelve solo el nombre de la persona
+    }
+
+    // Buscar atributo directamente en ListaArray
+    public String getAtributo(String clave) {
+        return atributos.buscarPorClave(clave); // Busca clave y devuelve el valor
+    }
+
+// Extraer listas desde atributos tipo JSON
+    public Lista<String> getAtributoComoLista(String clave) {
+        String valor = getAtributo(clave); // Busca el valor del atributo
+        Lista<String> lista = new Lista<>();
+        if (valor != null && valor.startsWith("[") && valor.endsWith("]")) {
+            // Extraer contenido entre corchetes y separar por comas
+            valor = valor.substring(1, valor.length() - 1);
+            String[] elementos = valor.split(",");
+            for (String elemento : elementos) {
+                lista.insertFinal(elemento.trim().replace("\"", "")); // Limpiar espacios y comillas
+            }
+        }
+        return lista; // Retorna la lista creada
+    }
+
 }

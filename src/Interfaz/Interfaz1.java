@@ -8,8 +8,11 @@ import Clases.Lista;
 import Clases.Persona;
 import Clases.Casa;
 import Clases.ListaArray;
+import Clases.Map;
 import Clases.Nodo;
 import Clases.NodoArray;
+import Clases.NodoTree;
+import Clases.Par;
 import proyecto2.HashTableTitles;
 import proyecto2.HashTable;
 import com.google.gson.Gson;
@@ -21,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import proyecto2.HashTable;
@@ -42,10 +46,11 @@ public class Interfaz1 extends javax.swing.JFrame {
     private HashTableTitles titlesHashTable;
 
     Lista casas = new Lista();
-    
 
     public Interfaz1() {
         initComponents();
+        setSize(800, 600);
+        setLocationRelativeTo(null);
         houseTree = new Tree();
         personaHashTable = new HashTable(); // Inicializa la HashTable
         moteHashTable = new HashTable(); // Inicializa la HashTable
@@ -118,6 +123,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 try {
                     String contenidoJson = leerArchivoJson(filePath);
                     parsearJson(contenidoJson);
+                    verRegistroFrame.poblarComboBox(); // Asegúrate de llamar a poblarComboBox después de parsear el JSON y añadir nodos a la HashTable
 
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -157,7 +163,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 }
             }
         }
-        System.out.println("Número total de atributos únicos: " + atributosUnicos.getSize());
+        System.out.println("Numero total de atributos unicos: " + atributosUnicos.getSize());
         return atributosUnicos;
     }
 
@@ -190,7 +196,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 JsonArray atributosArray = personajeObject.getAsJsonArray(nombrePersonaje);
 
                 Persona persona = new Persona(nombrePersonaje, "", atributosUnicos.getSize());
-                
+
                 // Rellenar atributos
                 NodoArray[] atributosArrayPersona = persona.getAtributos().getArray();
                 for (int i = 0; i < atributosUnicos.getSize(); i++) {
@@ -209,11 +215,19 @@ public class Interfaz1 extends javax.swing.JFrame {
                     }
                 }
                 casa.addPersonaje(persona);
+//                personaHashTable.add(persona, false);//aniadimos personas a la hashtable
             }
             casas.insertFinal(casa);
         }
 
-        imprimirCasas();
+//        imprimirCasas();
+        ArbolGenealogico arbol = new ArbolGenealogico();
+        arbol.construirArbol(casas);
+//        arbol.imprimirArbol(); // Para mostrarlo en texto
+//        arbol.mostrarArbol();  // Para visualizar con graphstream (no sirve)
+        agregarNodosAHHashTable(arbol.getArbolGenealogico().getRoot()); // Usa el método getter
+
+        imprimirContenidoHashTable();
     }
 
 // Método para obtener el índice de un atributo en ListaArray
@@ -225,6 +239,35 @@ public class Interfaz1 extends javax.swing.JFrame {
             }
         }
         return -1; // No encontrado
+    }
+
+    private void imprimirContenidoHashTable() {
+        for (NodoTree nodo : personaHashTable.getTable()) {
+            if (nodo != null) {
+                Persona persona = (Persona) nodo.getElement();
+                System.out.println("En HashTable: " + persona.getNombre());
+            } else {
+                System.out.println("Nodo es nulo en la HashTable");
+            }
+        }
+    }
+
+    private void agregarNodosAHHashTable(NodoTree nodo) {
+        if (nodo == null) {
+            System.out.println("Nodo es nulo, no se añade a la HashTable.");
+            return;
+        }
+        Persona persona = (Persona) nodo.getElement();
+        if (persona == null) {
+            System.out.println("Elemento de nodo es nulo, no se añade a la HashTable.");
+            return;
+        }
+        personaHashTable.add(nodo, false);
+        System.out.println("Aniadido a HashTable: " + persona.getNombre()); // Mensaje de depuración
+
+        for (NodoTree hijo : nodo.getSons()) {
+            agregarNodosAHHashTable(hijo);
+        }
     }
 
     private void imprimirCasas() {

@@ -1,4 +1,3 @@
-
 package proyecto2;
 
 import Clases.NodoTree;
@@ -19,7 +18,7 @@ public class HashTable implements IHashTable {
     public NodoTree get(String key, boolean mote) {
         int position = hash(key, false);
         NodoTree person = table[position];
-        Persona persona = (Persona)person.getElement();
+        Persona persona = (Persona) person.getElement();
         // Verificar si la persona en la posición coincide con la clave proporcionada
         if (persona != null) {
             String expectedKey = persona.getNombre() + persona.getNumeric();
@@ -48,6 +47,7 @@ public class HashTable implements IHashTable {
         if (table[position] == null) {
             table[position] = person;
             size++;
+            System.out.println("Aniadido a la posicion: " + position + " con clave: " + key);
         } else {
             // Resolución de colisiones usando prueba cuadrática
             int i = 1;
@@ -57,6 +57,7 @@ public class HashTable implements IHashTable {
             }
             table[position] = person;
             size++;
+            System.out.println("Aniadido a la posicion (despues de colision): " + position + " con clave: " + key);
         }
     }
 
@@ -69,14 +70,15 @@ public class HashTable implements IHashTable {
     public int getMax() {
         return max;
     }
-    
+
     //con esto obtenemos el array table
     public NodoTree[] getTable() {
         return table;
     }
-    
+
     /**
      * Método hash para calcular la posición en la tabla
+     *
      * @param key Clave para hashear
      * @param mote Indica si la clave es un mote o un nombre completo + número
      * @return Posición en la tabla
@@ -91,13 +93,24 @@ public class HashTable implements IHashTable {
         String auxKey;
         do {
             NodoTree person = table[position];
-            Persona persona = (Persona)person.getElement();
-            if (persona == null) break;
+            if (person == null) {
+                System.out.println("Posicion libre encontrada: " + position);
+                break;
+            }
+            Persona persona = (Persona) person.getElement();
+            if (persona == null) {
+                System.out.println("Persona en NodoTree es nula en la posicion: " + position);
+                break;
+            }
 
             auxKey = mote ? persona.getApodo() : persona.getNombre() + persona.getNumeric();
-            if (auxKey.equalsIgnoreCase(key)) break;
+            if (auxKey.equalsIgnoreCase(key)) {
+                System.out.println("Clave coincidente encontrada: " + auxKey + " en la posicion: " + position);
+                break;
+            }
             i++;
             position = (position + i * i) % max;
+            System.out.println("Resolviendo colision, nueva posicion: " + position);
         } while (table[position] != null);
 
         return position;
@@ -105,6 +118,7 @@ public class HashTable implements IHashTable {
 
     /**
      * Transforma un String en un valor numérico para el hash
+     *
      * @param key String a transformar
      * @return Valor hash
      */
@@ -120,17 +134,17 @@ public class HashTable implements IHashTable {
     @Override
     public String[] getMatch(String key, boolean mote) {
         String[] matches = new String[0];
-        for (NodoTree person : table){
-            Persona element = (Persona)person.getElement();
-            if (mote){
-                if(element != null && element.getApodo().contains(key)){
-                    matches = new String[matches.length+1];
-                    matches[matches.length-1] = element.getApodo();
+        for (NodoTree person : table) {
+            Persona element = (Persona) person.getElement();
+            if (mote) {
+                if (element != null && element.getApodo().contains(key)) {
+                    matches = new String[matches.length + 1];
+                    matches[matches.length - 1] = element.getApodo();
                 }
             } else {
-                if (element != null && (element.getNombre() + element.getNumeric()).contains(key)){
-                    matches = new String[matches.length+1];
-                    matches[matches.length-1] = element.getNombre() + element.getNumeric();
+                if (element != null && (element.getNombre() + element.getNumeric()).contains(key)) {
+                    matches = new String[matches.length + 1];
+                    matches[matches.length - 1] = element.getNombre() + element.getNumeric();
                 }
             }
         }
