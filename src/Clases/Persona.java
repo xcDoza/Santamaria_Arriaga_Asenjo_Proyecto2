@@ -14,7 +14,7 @@ public class Persona {
     private String apodo;
     private ListaArray atributos; // Cambiado a ListaArray
 
-    public Persona(String nombre, String apodo, int maxAtributos) {
+    public Persona(String nombre, String apodo, int maxAtributos, int contador) {
         this.nombre = nombre;
         this.apodo = apodo;
         this.atributos = new ListaArray(maxAtributos); // Tamaño fijo

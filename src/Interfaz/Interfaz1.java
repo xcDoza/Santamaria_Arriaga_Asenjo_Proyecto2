@@ -208,13 +208,14 @@ public class Interfaz1 extends javax.swing.JFrame {
         for (String nombreCasa : jsonObject.keySet()) {
             Casa casa = new Casa(nombreCasa);
             JsonArray personajesArray = jsonObject.getAsJsonArray(nombreCasa);
+            int contador = 0;
 
             for (JsonElement personajeElement : personajesArray) {
                 JsonObject personajeObject = personajeElement.getAsJsonObject();
                 String nombrePersonaje = personajeObject.keySet().iterator().next();
                 JsonArray atributosArray = personajeObject.getAsJsonArray(nombrePersonaje);
 
-                Persona persona = new Persona(nombrePersonaje, "", atributosUnicos.getSize());
+                Persona persona = new Persona(nombrePersonaje, "", atributosUnicos.getSize(), contador);
 
                 // Rellenar atributos
                 NodoArray[] atributosArrayPersona = persona.getAtributos().getArray();
@@ -234,6 +235,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                     }
                 }
                 casa.addPersonaje(persona);
+                contador ++;
 //                personaHashTable.add(persona, false);//aniadimos personas a la hashtable
             }
             casas.insertFinal(casa);
