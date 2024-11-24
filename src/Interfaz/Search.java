@@ -116,7 +116,6 @@ public class Search extends javax.swing.JFrame {
     }
     
     public void poblarSearchResults(String[] elementos){
-        SearchResults.removeAll();
         SearchResults.setModel(modelo);
         for (int i = 0; i < elementos.length; i++){
             modelo.add(i, elementos[i]);

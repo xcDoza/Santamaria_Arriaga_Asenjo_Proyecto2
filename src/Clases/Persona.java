@@ -14,7 +14,7 @@ public class Persona {
     private String apodo;
     private ListaArray atributos; // Cambiado a ListaArray
 
-    public Persona(String nombre, String apodo, int maxAtributos) {
+    public Persona(String nombre, String apodo, int maxAtributos, int contador) {
         this.nombre = nombre;
         this.apodo = apodo;
         this.atributos = new ListaArray(maxAtributos); // Tamaño fijo
@@ -25,11 +25,11 @@ public class Persona {
     }
 
     public String getNumeric() {
-        return getAtributo(3); // tengo que confirmar el indice de esto
+        return getAtributo("Of his name"); // tengo que confirmar el indice de esto
     }
 
     public String getTitle() {
-        return getAtributo(5); // tengo que confirmar el indice de esto
+        return getAtributo("Held title"); // tengo que confirmar el indice de esto
     }
 
     public void setAtributo(int index, String atributo) {

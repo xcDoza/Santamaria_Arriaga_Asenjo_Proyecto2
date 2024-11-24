@@ -1,7 +1,7 @@
 package Interfaz;
 
-
-package Interfaz;
+import Clases.Lista;
+import Clases.Tree;
 
 import proyecto2.HashTableTitles;
 

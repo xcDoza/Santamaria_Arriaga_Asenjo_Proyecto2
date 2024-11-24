@@ -4,6 +4,8 @@
  */
 package Clases;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
@@ -152,6 +154,46 @@ public class Tree {
         System.out.println(prefix + "- " + node.getElement());
         for (NodoTree hijo : node.getSons()) {
             printAllNodes(hijo, prefix + "  ");
+        }
+    }
+
+    public int obtenerAlturaArbol() {
+        int altura = obtenerAltura(getRoot());
+        System.out.println("Altura del arbol: " + altura);
+        return obtenerAltura(getRoot());
+    }
+
+    private int obtenerAltura(NodoTree nodo) {
+        if (nodo == null) {
+            return 0;
+        }
+        int alturaMaxima = 0;
+        for (NodoTree hijo : nodo.getSons()) {
+            alturaMaxima = Math.max(alturaMaxima, obtenerAltura(hijo));
+        }
+        return alturaMaxima + 1;
+    }
+
+    public List<Persona> obtenerIntegrantesDeGeneracion(int generacion) {
+        List<Persona> integrantes = new ArrayList<>();
+        obtenerIntegrantesDeGeneracion(getRoot(), generacion -1 , 0, integrantes);
+        System.out.println("Generacion: " + generacion + " - Integrantes: " + integrantes.size());
+        for (Persona persona : integrantes) {
+            System.out.println(" - " + persona.getNombre());
+        }
+        return integrantes;
+    }
+
+    private void obtenerIntegrantesDeGeneracion(NodoTree nodo, int generacion, int nivelActual, List<Persona> integrantes) {
+        if (nodo == null) {
+            return;
+        }
+        if (nivelActual == generacion) {
+            integrantes.add((Persona) nodo.getElement());
+            System.out.println("Aniadido: " + ((Persona) nodo.getElement()).getNombre() + " en generacion " + nivelActual);
+        }
+        for (NodoTree hijo : nodo.getSons()) {
+            obtenerIntegrantesDeGeneracion(hijo, generacion, nivelActual + 1, integrantes);
         }
     }
 
