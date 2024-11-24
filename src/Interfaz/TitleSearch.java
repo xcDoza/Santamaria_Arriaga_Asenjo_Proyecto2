@@ -1,6 +1,8 @@
 package Interfaz;
 
 import Clases.Lista;
+import Clases.Nodo;
+import Clases.Persona;
 import Clases.Tree;
 import Interfaz.WindowManager;
 import javax.swing.JFrame;
@@ -8,6 +10,8 @@ import proyecto2.HashTableTitles;
 
 
 public class TitleSearch extends javax.swing.JFrame {
+
+    private HashTableTitles titlesHashTable;
 
     /**
      * Creates new form TitleSearch
@@ -32,6 +36,9 @@ public class TitleSearch extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         SearchResults = new javax.swing.JList<>();
         SelectResultBtn = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        PersonSelect = new javax.swing.JList<>();
+        PersonSelectBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -43,7 +50,7 @@ public class TitleSearch extends javax.swing.JFrame {
                 SearchTextActionPerformed(evt);
             }
         });
-        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 460, 40));
+        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 460, 40));
 
         SearchBtn.setText("Buscar");
         SearchBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -51,16 +58,11 @@ public class TitleSearch extends javax.swing.JFrame {
                 SearchBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 130, 40));
+        jPanel1.add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 130, 40));
 
-        SearchResults.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(SearchResults);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 460, 260));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 460, 160));
 
         SelectResultBtn.setText("Seleccionar");
         SelectResultBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -68,27 +70,55 @@ public class TitleSearch extends javax.swing.JFrame {
                 SelectResultBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(SelectResultBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 390, 160, 50));
+        jPanel1.add(SelectResultBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 230, 160, 50));
+
+        jScrollPane2.setViewportView(PersonSelect);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 460, 160));
+
+        PersonSelectBtn.setText("Seleccionar");
+        PersonSelectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PersonSelectBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(PersonSelectBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 420, 150, 50));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setTitlesHashTable(HashTableTitles titlesHashTable) {
+        this.titlesHashTable = titlesHashTable;
+    }
+    
     private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SearchTextActionPerformed
 
     private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
         SearchResults.setListData(titlesHashTable.getMatch(SearchText.getText()));
-        }
     }//GEN-LAST:event_SearchBtnActionPerformed
 
     private void SelectResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectResultBtnActionPerformed
         Lista result;
         result = titlesHashTable.get(SearchResults.getSelectedValue());
+        String[] aux = new String[result.getSize()];
+        Nodo r = result.getHead();
+        int i = 0;
+        while (r != null){
+            aux[i] = ((Persona) r.getElement()).getNombre();
+            i++;
+            r = r.getNext();
+        }
+        PersonSelect.setListData(aux);
         // aquí debería enviarte a otra selección para luego mostrar la informacion de la persona
     }//GEN-LAST:event_SelectResultBtnActionPerformed
+
+    private void PersonSelectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PersonSelectBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PersonSelectBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,11 +156,14 @@ public class TitleSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> PersonSelect;
+    private javax.swing.JButton PersonSelectBtn;
     private javax.swing.JButton SearchBtn;
     private javax.swing.JList<String> SearchResults;
     private javax.swing.JTextField SearchText;
     private javax.swing.JButton SelectResultBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

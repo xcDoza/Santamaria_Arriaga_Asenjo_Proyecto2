@@ -94,19 +94,6 @@ public class HashTableTitles{
     public int hash(String key) {
         long hashValue = transformString(key); // Genera el valor hash a partir de la clave
         int position = (int) (hashValue % max);
-        // Prueba cuadrática en caso de colisión
-        int i = 0;
-        String auxKey;
-        do {
-            Lista lista = table[position];
-            if (lista == null) break;
-
-            auxKey = lista.getHead().getKey();
-            if (auxKey.equalsIgnoreCase(key)) break;
-
-            i++;
-            position = (position + i * i) % max;
-        } while (table[position] != null);
         return position;
     }
 
@@ -125,9 +112,14 @@ public class HashTableTitles{
     
     public String[] getMatch(String key) {
         String[] matches = new String[0];
+        String[] matches2;
         for (Lista element : table){
-            if(element != null && element.getHead().getKey().contains(key)){
-                matches = new String[matches.length+1];
+            if(element != null && element.getHead().getKey().toLowerCase().contains(key.toLowerCase())){
+                matches2 = new String[matches.length + 1];
+                for (int i = 0; i < matches.length; i++) {
+                    matches2[i] = matches[i];
+                }
+                matches = matches2;
                 matches[matches.length-1] = element.getHead().getKey();
             }
         }

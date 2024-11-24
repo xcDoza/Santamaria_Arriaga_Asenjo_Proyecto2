@@ -7,6 +7,7 @@ package Interfaz;
 import Clases.NodoTree;
 import Clases.Persona;
 import Clases.Tree;
+import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import proyecto2.HashTable;
@@ -28,7 +29,8 @@ public class Search extends javax.swing.JFrame {
      */
     public Search() {
         initComponents();
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no se cierre el programa cuando se clickea "x"
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // Para que no se cierre el programa cuando se clickea "x"
     }
 
     /**
@@ -47,7 +49,6 @@ public class Search extends javax.swing.JFrame {
         SearchResults = new javax.swing.JList<>();
         SearchBtn = new javax.swing.JButton();
         SelectResultBtn = new javax.swing.JButton();
-        SelectSearchType = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -89,14 +90,6 @@ public class Search extends javax.swing.JFrame {
         });
         jPanel1.add(SelectResultBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 390, 160, 50));
 
-        SelectSearchType.setText("Seleccionar");
-        SelectSearchType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SelectSearchTypeActionPerformed(evt);
-            }
-        });
-        jPanel1.add(SelectSearchType, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 90, 90, 30));
-
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
@@ -117,14 +110,12 @@ public class Search extends javax.swing.JFrame {
         SearchType.addItem("Mote");
     }
     
-    public void poblarSearchResults(String[] elementos){
-        SearchResults.setModel(modelo);
-        for (int i = 0; i < elementos.length; i++){
-            modelo.add(i, elementos[i]);
-        }
-    }
     private void SearchTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTypeActionPerformed
-        // TODO add your handling code here:
+        if(SearchType.getSelectedItem().equals("Nombre + numeral")){
+            activeSearch = 0;
+        } else {
+            activeSearch = 1;
+        }
     }//GEN-LAST:event_SearchTypeActionPerformed
 
     private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
@@ -132,34 +123,26 @@ public class Search extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchTextActionPerformed
 
     private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
-        switch (activeSearch) {
-            case 0:
-                poblarSearchResults(personaHashTable.getMatch(SearchText.getText(), false));
-            default:
-                poblarSearchResults(moteHashTable.getMatch(SearchText.getText(), true));;
+        if (activeSearch == 0){
+            System.out.println("en personas");
+            SearchResults.setListData(personaHashTable.getMatch(SearchText.getText(), false));
+        } else {
+            System.out.println("en motes");
+            SearchResults.setListData(moteHashTable.getMatch(SearchText.getText(), true));
         }
     }//GEN-LAST:event_SearchBtnActionPerformed
 
     private void SelectResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectResultBtnActionPerformed
         NodoTree result;
         Tree subTree = new Tree();
-        switch (activeSearch) {
-            case 0:
-                result = personaHashTable.get(SearchResults.getSelectedValue(), false);
-            default:
-                result = moteHashTable.get(SearchResults.getSelectedValue(), true);
+        if (activeSearch == 0){
+            result = personaHashTable.get(SearchResults.getSelectedValue(), false);            
+        } else {
+            result = moteHashTable.get(SearchResults.getSelectedValue(), true);
         }
         subTree.setRoot(result);
         subTree.displayGraph();
     }//GEN-LAST:event_SelectResultBtnActionPerformed
-
-    private void SelectSearchTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectSearchTypeActionPerformed
-        if(SearchType.getSelectedItem().equals("Nombre + numeral")){
-            activeSearch = 0;
-        } else {
-            activeSearch = 1;
-        }
-    }//GEN-LAST:event_SelectSearchTypeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,7 +185,6 @@ public class Search extends javax.swing.JFrame {
     private javax.swing.JTextField SearchText;
     private javax.swing.JComboBox<String> SearchType;
     private javax.swing.JButton SelectResultBtn;
-    private javax.swing.JButton SelectSearchType;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

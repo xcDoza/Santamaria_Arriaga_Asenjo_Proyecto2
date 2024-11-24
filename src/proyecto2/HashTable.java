@@ -126,8 +126,12 @@ public class HashTable implements IHashTable {
             if (person != null) {
                 Persona element = (Persona) person.getElement();
                 if (mote) {
-                    if (element != null && element.getApodo().contains(key)) {
-                        matches = new String[matches.length + 1];
+                    if (element != null && element.getApodo().toLowerCase().contains(key.toLowerCase())) {
+                        matches2 = new String[matches.length + 1];
+                        for (int i = 0; i < matches.length; i++) {
+                            matches2[i] = matches[i];
+                        }
+                        matches = matches2;
                         matches[matches.length - 1] = element.getApodo();
                     }
                 } else {

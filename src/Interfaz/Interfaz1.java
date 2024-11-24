@@ -41,6 +41,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private Tree houseTree;
     private VerRegistro verRegistroFrame;
     private Search searchFrame;
+    private TitleSearch titleSearchFrame;
     private HashTable personaHashTable;
     private ListaGeneracion ListaGeneracion;
     private HashTable moteHashTable;
@@ -58,9 +59,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         titlesHashTable = new HashTableTitles(); // Inicializa la HashTable
         verRegistroFrame = new VerRegistro();
         searchFrame = new Search();
+        titleSearchFrame = new TitleSearch();
         searchFrame.setPersonaHashTable(personaHashTable);
         searchFrame.setMoteHashTable(moteHashTable);
         verRegistroFrame.setPersonaHashTable(personaHashTable);
+        titleSearchFrame.setTitlesHashTable(titlesHashTable);
     }
 
     /**
@@ -77,10 +80,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         VerRegistro = new javax.swing.JButton();
         VerGeneraciones = new javax.swing.JButton();
         SearchBtn = new javax.swing.JButton();
-
+        titleSearchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, -1, -1));
 
@@ -100,7 +104,6 @@ public class Interfaz1 extends javax.swing.JFrame {
         });
         getContentPane().add(VerRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
 
-
         VerGeneraciones.setText("Ver Generaciones");
         VerGeneraciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,6 +120,13 @@ public class Interfaz1 extends javax.swing.JFrame {
         });
         getContentPane().add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 90, -1));
 
+        titleSearchBtn.setText("Buscar por titulos");
+        titleSearchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                titleSearchBtnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(titleSearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 150, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -173,6 +183,10 @@ public class Interfaz1 extends javax.swing.JFrame {
         searchFrame.poblarSearchType();
         searchFrame.setVisible(true);
     }//GEN-LAST:event_SearchBtnActionPerformed
+
+    private void titleSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleSearchBtnActionPerformed
+        titleSearchFrame.setVisible(true);
+    }//GEN-LAST:event_titleSearchBtnActionPerformed
 
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
@@ -302,7 +316,7 @@ public class Interfaz1 extends javax.swing.JFrame {
             return;
         }
         personaHashTable.add(nodo, false);
-        if (!"none".equals(persona.getApodo())){
+        if (persona.getApodo() != null){
             moteHashTable.add(nodo, true);
         }
         if (persona.getTitle() != null){
@@ -390,10 +404,11 @@ public class Interfaz1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton VerGeneraciones;
     private javax.swing.JButton SearchBtn;
+    private javax.swing.JButton VerGeneraciones;
     private javax.swing.JButton VerRegistro;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton titleSearchBtn;
     // End of variables declaration//GEN-END:variables
 }

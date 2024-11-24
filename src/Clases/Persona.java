@@ -54,7 +54,7 @@ public class Persona {
     }
 
     public String getApodo() {
-        return apodo;
+        return getAtributo("Known throughout as");
     }
 
     public void setApodo(String apodo) {
