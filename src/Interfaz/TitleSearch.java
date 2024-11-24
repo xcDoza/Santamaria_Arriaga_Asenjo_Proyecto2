@@ -78,21 +78,14 @@ public class TitleSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchTextActionPerformed
 
     private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
-        SearchResults.setListData(titlesHashTable.getMatch(SearchText.getText(), false));
+        SearchResults.setListData(titlesHashTable.getMatch(SearchText.getText()));
         }
     }//GEN-LAST:event_SearchBtnActionPerformed
 
     private void SelectResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectResultBtnActionPerformed
         Lista result;
-        Tree subTree = new Tree();
-        switch (activeSearch) {
-            case 0:
-            result = personaHashTable.get(SearchResults.getSelectedValue(), false);
-            default:
-            result = moteHashTable.get(SearchResults.getSelectedValue(), true);
-        }
-        subTree.setRoot(result);
-        subTree.displayGraph();
+        result = titlesHashTable.get(SearchResults.getSelectedValue());
+        // aquí debería enviarte a otra selección para luego mostrar la informacion de la persona
     }//GEN-LAST:event_SelectResultBtnActionPerformed
 
     /**

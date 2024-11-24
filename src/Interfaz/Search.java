@@ -7,6 +7,7 @@ package Interfaz;
 import Clases.NodoTree;
 import Clases.Persona;
 import Clases.Tree;
+import javax.swing.DefaultListModel;
 import proyecto2.HashTable;
 
 /**
@@ -19,12 +20,13 @@ public class Search extends javax.swing.JFrame {
     private HashTable moteHashTable;
     private int activeSearch;
     
+    DefaultListModel<String> modelo = new DefaultListModel<>();
+    
     /**
      * Creates new form Search
      */
     public Search() {
         initComponents();
-        SearchResults.removeAll();
     }
 
     /**
@@ -65,11 +67,6 @@ public class Search extends javax.swing.JFrame {
         });
         jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 460, 40));
 
-        SearchResults.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(SearchResults);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 460, 260));
@@ -118,6 +115,13 @@ public class Search extends javax.swing.JFrame {
         SearchType.addItem("Mote");
     }
     
+    public void poblarSearchResults(String[] elementos){
+        SearchResults.removeAll();
+        SearchResults.setModel(modelo);
+        for (int i = 0; i < elementos.length; i++){
+            modelo.add(i, elementos[i]);
+        }
+    }
     private void SearchTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTypeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SearchTypeActionPerformed
@@ -129,9 +133,9 @@ public class Search extends javax.swing.JFrame {
     private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
         switch (activeSearch) {
             case 0:
-                SearchResults.setListData(personaHashTable.getMatch(SearchText.getText(), false));
+                poblarSearchResults(personaHashTable.getMatch(SearchText.getText(), false));
             default:
-                SearchResults.setListData(moteHashTable.getMatch(SearchText.getText(), true));;
+                poblarSearchResults(moteHashTable.getMatch(SearchText.getText(), true));;
         }
     }//GEN-LAST:event_SearchBtnActionPerformed
 

@@ -112,7 +112,7 @@ public class HashTableTitles{
         return Math.abs(hash);
     }
     
-    public String[] getMatch(String key, boolean mote) {
+    public String[] getMatch(String key) {
         String[] matches = new String[0];
         for (Lista element : table){
             if(element != null && element.getHead().getKey().contains(key)){

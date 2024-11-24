@@ -42,6 +42,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private VerRegistro verRegistroFrame;
     private Search searchFrame;
     private HashTable personaHashTable;
+    private ListaGeneracion ListaGeneracion;
     private HashTable moteHashTable;
     private HashTableTitles titlesHashTable;
 
@@ -108,6 +109,18 @@ public class Interfaz1 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void setPersonaHashTable(HashTable personaHashTable) {
+        this.personaHashTable = personaHashTable;
+    }
+
+    public void setMoteHashTable(HashTable moteHashTable) {
+        this.moteHashTable = moteHashTable;
+    }
+
+    public void setTitlesHashTable(HashTableTitles titlesHashTable) {
+        this.titlesHashTable = titlesHashTable;
+    }
 
     private void btnCargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarArchivoActionPerformed
         // TODO add your handling code here:
@@ -263,6 +276,10 @@ public class Interfaz1 extends javax.swing.JFrame {
             return;
         }
         personaHashTable.add(nodo, false);
+        if (!"none".equals(persona.getApodo())){
+            moteHashTable.add(nodo, true);
+        }
+        titlesHashTable.add(persona);
         System.out.println("Aniadido a HashTable: " + persona.getNombre()); // Mensaje de depuración
 
         for (NodoTree hijo : nodo.getSons()) {

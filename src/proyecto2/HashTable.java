@@ -135,16 +135,18 @@ public class HashTable implements IHashTable {
     public String[] getMatch(String key, boolean mote) {
         String[] matches = new String[0];
         for (NodoTree person : table) {
-            Persona element = (Persona) person.getElement();
-            if (mote) {
-                if (element != null && element.getApodo().contains(key)) {
-                    matches = new String[matches.length + 1];
-                    matches[matches.length - 1] = element.getApodo();
-                }
-            } else {
-                if (element != null && (element.getNombre() + element.getNumeric()).contains(key)) {
-                    matches = new String[matches.length + 1];
-                    matches[matches.length - 1] = element.getNombre() + element.getNumeric();
+            if (person != null){
+                Persona element = (Persona) person.getElement();
+                if (mote) {
+                   if (element != null && element.getApodo().contains(key)) {
+                        matches = new String[matches.length + 1];
+                        matches[matches.length - 1] = element.getApodo();
+                    }
+                } else {
+                    if (element != null && (element.getNombre() + element.getNumeric()).contains(key)) {
+                        matches = new String[matches.length + 1];
+                        matches[matches.length - 1] = element.getNombre() + element.getNumeric();
+                    }
                 }
             }
         }
