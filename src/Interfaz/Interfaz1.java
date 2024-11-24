@@ -143,6 +143,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 try {
                     String contenidoJson = leerArchivoJson(filePath);
                     parsearJson(contenidoJson);
+                    houseTree.displayGraph(); //con esto mostramos el grafo al parsear el json
                     verRegistroFrame.poblarComboBox(); // Asegúrate de llamar a poblarComboBox después de parsear el JSON y añadir nodos a la HashTable
 
                 } catch (IOException e) {
@@ -174,7 +175,6 @@ public class Interfaz1 extends javax.swing.JFrame {
         VerGeneracionYRegistro listaGeneracionForm = new VerGeneracionYRegistro(houseTree, personaHashTable);
         listaGeneracionForm.setVisible(true);
     }//GEN-LAST:event_genyregisbtnActionPerformed
-
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
         ListaArray atributosUnicos = new ListaArray(100); // Tamaño inicial grande para manejar expansión
@@ -248,7 +248,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                     }
                 }
                 casa.addPersonaje(persona);
-                contador ++;
+                contador++;
 //                personaHashTable.add(persona, false);//aniadimos personas a la hashtable
             }
             casas.insertFinal(casa);
@@ -261,6 +261,7 @@ public class Interfaz1 extends javax.swing.JFrame {
 //        arbol.mostrarArbol();  // Para visualizar con graphstream (no sirve)
         agregarNodosAHHashTable(arbol.getArbolGenealogico().getRoot()); // Usa el metodo getter
         houseTree = arbol.getArbolGenealogico();//usaremos este arbol para todo lo demas, posibles cambios
+//        houseTree.displayGraph(); //mostrar el grafo aquí también
 
         imprimirContenidoHashTable();
     }

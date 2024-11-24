@@ -95,7 +95,7 @@ public class Tree {
         }
 
         // Recorrer el árbol y añadir nodos y aristas al grafo
-        addNodeToGraph(graph, root, null);
+        addNodeToGraph(graph, root, null, 0, 0);
 
         // Configurar estilo básico del grafo
         graph.setAttribute("ui.stylesheet",
@@ -109,20 +109,25 @@ public class Tree {
     /**
      * Método auxiliar para recorrer el árbol y añadir nodos/aristas al grafo.
      */
-    private void addNodeToGraph(Graph graph, NodoTree nodo, String parentId) {
+    private void addNodeToGraph(Graph graph, NodoTree nodo, String parentId, double x, double y) {
         if (nodo == null) {
             return;
         }
 
         String nodeId = String.valueOf(nodo.getKey());
         graph.addNode(nodeId).setAttribute("ui.label", nodo.getElement().toString());
+        graph.getNode(nodeId).setAttribute("xyz", new double[]{x, y, 0});//asignamos coordenadas (x, y)
 
         if (parentId != null) {
             graph.addEdge(parentId + "-" + nodeId, parentId, nodeId);
         }
 
+        double childY = y - 1; //separacion vertical entre generaciones
+        double childX = x - (nodo.getSons().length - 1) * 0.5; //osicion horizontal inicial para los hijos
+
         for (NodoTree child : nodo.getSons()) {
-            addNodeToGraph(graph, child, nodeId);
+            addNodeToGraph(graph, child, nodeId, childX, childY);
+            childX += 2; //separacion horizontal entre nodos
         }
     }
 
@@ -130,7 +135,23 @@ public class Tree {
      * Método para mostrar gráficamente el árbol utilizando GraphStream.
      */
     public void displayGraph() {
+
+//        con esto teoricamente desactivamos el layout automático y la interacción pero no funciona
+//        System.setProperty("org.graphstream.ui.layout", "manual");
+//        System.setProperty("org.graphstream.ui.view", "non-interactive");
+        System.setProperty("org.graphstream.ui", "swing"); //lo que faltaba para visualizar el arbol con graphstream
         Graph graph = toGraph();
+
+        // Verifica que los nodos tengan coordenadas asignadas y maneja el tipo del atributo xyz
+        graph.nodes().forEach(node -> {
+            Object posObj = node.getAttribute("xyz"); // Recupera el atributo xyz
+            if (posObj instanceof double[]) { // Verifica si es un arreglo de double
+                double[] pos = (double[]) posObj; // Realiza el cast seguro
+                System.out.println("Nodo con posicion valida: " + node.getId() + " - [" + pos[0] + ", " + pos[1] + "]");
+            } else {
+                System.out.println("Nodo sin posicion valida: " + node.getId());
+            }
+        });
         graph.display();
     }
 
@@ -174,7 +195,7 @@ public class Tree {
 
     public ListaArray obtenerIntegrantesDeGeneracion(int generacion, int maxSize) {
         ListaArray integrantes = new ListaArray(maxSize);
-        obtenerIntegrantesDeGeneracion(getRoot(), generacion -1 , 0, integrantes);
+        obtenerIntegrantesDeGeneracion(getRoot(), generacion - 1, 0, integrantes);
         return integrantes;
     }
 
