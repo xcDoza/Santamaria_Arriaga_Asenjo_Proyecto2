@@ -90,12 +90,22 @@ public class ListaGeneracion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GeneracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneracionesActionPerformed
-        // TODO add your handling code here:
+        int generacion = Generaciones.getSelectedIndex() + 1;
+        ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100);
+        IntegrantesGen.setText("");
+        NodoArray[] arrayIntegrantes = integrantes.getArray();
+        for (int i = 0; i < integrantes.getSize(); i++) {
+            NodoArray nodoIntegrante = arrayIntegrantes[i];
+            if (nodoIntegrante != null) {
+                Persona persona = (Persona) nodoIntegrante.getElement();
+                IntegrantesGen.append(persona.getNombre() + "\n");
+            }
+        }
     }//GEN-LAST:event_GeneracionesActionPerformed
 
     private void CargarIntegrantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarIntegrantesActionPerformed
         int generacion = Generaciones.getSelectedIndex() + 1;
-        ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100); // Suponiendo un tamaño máximo de 100
+        ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100);
         IntegrantesGen.setText("");
         NodoArray[] arrayIntegrantes = integrantes.getArray();
         for (int i = 0; i < integrantes.getSize(); i++) {

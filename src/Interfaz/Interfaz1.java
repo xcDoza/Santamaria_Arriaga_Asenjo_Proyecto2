@@ -45,6 +45,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private ListaGeneracion ListaGeneracion;
     private HashTable moteHashTable;
     private HashTableTitles titlesHashTable;
+    private VerGeneracionYRegistro VerGeneracionYRegistro;
 
     Lista casas = new Lista();
 
@@ -77,10 +78,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         VerRegistro = new javax.swing.JButton();
         VerGeneraciones = new javax.swing.JButton();
         SearchBtn = new javax.swing.JButton();
-
+        genyregisbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, -1, -1));
 
@@ -100,7 +102,6 @@ public class Interfaz1 extends javax.swing.JFrame {
         });
         getContentPane().add(VerRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
 
-
         VerGeneraciones.setText("Ver Generaciones");
         VerGeneraciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,6 +118,13 @@ public class Interfaz1 extends javax.swing.JFrame {
         });
         getContentPane().add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 90, -1));
 
+        genyregisbtn.setText("VerGeneracionYRegistro");
+        genyregisbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genyregisbtnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(genyregisbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -161,6 +169,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         searchFrame.poblarSearchType();
         searchFrame.setVisible(true);
     }//GEN-LAST:event_SearchBtnActionPerformed
+
+    private void genyregisbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genyregisbtnActionPerformed
+        VerGeneracionYRegistro listaGeneracionForm = new VerGeneracionYRegistro(houseTree, personaHashTable);
+        listaGeneracionForm.setVisible(true);
+    }//GEN-LAST:event_genyregisbtnActionPerformed
 
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
@@ -368,10 +381,11 @@ public class Interfaz1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton VerGeneraciones;
     private javax.swing.JButton SearchBtn;
+    private javax.swing.JButton VerGeneraciones;
     private javax.swing.JButton VerRegistro;
     private javax.swing.JButton btnCargarArchivo;
+    private javax.swing.JButton genyregisbtn;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
