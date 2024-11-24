@@ -8,11 +8,9 @@ import Clases.Lista;
 import Clases.Persona;
 import Clases.Casa;
 import Clases.ListaArray;
-import Clases.Map;
 import Clases.Nodo;
 import Clases.NodoArray;
 import Clases.NodoTree;
-import Clases.Par;
 import proyecto2.HashTableTitles;
 import proyecto2.HashTable;
 import com.google.gson.Gson;
@@ -24,7 +22,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import proyecto2.HashTable;
@@ -212,6 +209,11 @@ public class Interfaz1 extends javax.swing.JFrame {
 
     private void parsearJson(String contenidoJson) {
         Gson gson = new Gson();
+        WindowManager.cerrarTodasLasVentanas();
+        
+        personaHashTable.clear();
+        moteHashTable.clear();
+        titlesHashTable.clear();
         JsonObject jsonObject = gson.fromJson(contenidoJson, JsonObject.class);
 
         // Paso 1: Obtener atributos únicos
@@ -251,6 +253,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 contador++;
 //                personaHashTable.add(persona, false);//aniadimos personas a la hashtable
             }
+            casas.deleteBegin();
             casas.insertFinal(casa);
         }
 
