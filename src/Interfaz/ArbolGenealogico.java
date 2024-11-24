@@ -102,9 +102,6 @@ public class ArbolGenealogico {
                 Persona candidato = entrada.getElement().getValor();
 
                 String[] partesClave = clave.split("_");
-                System.out.println("");
-                System.out.println("");
-                System.out.println("");
                 System.out.println(partesClave[0] + partesClave[1]);
 
                 if (partesClave.length == 2 && partesClave[0].equalsIgnoreCase(nombreHijoLimpio)) {

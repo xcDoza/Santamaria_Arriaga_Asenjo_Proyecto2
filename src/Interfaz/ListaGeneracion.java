@@ -7,6 +7,7 @@ package Interfaz;
 import Clases.Persona;
 import Clases.Tree;
 import java.util.List;
+import javax.swing.JFrame;
 
 /**
  *
@@ -18,10 +19,15 @@ public class ListaGeneracion extends javax.swing.JFrame {
 
     /**
      * Creates new form ListaGeneracion
+     * @param arbolGenealogico
      */
     public ListaGeneracion(Tree arbolGenealogico) {
         initComponents();
         this.arbolGenealogico = arbolGenealogico;
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no se cierre el programa cuando se clickea "x"
+        
+        WindowManager.registrarVentana(this);
+        
         llenarComboBoxGeneraciones();
     }
 

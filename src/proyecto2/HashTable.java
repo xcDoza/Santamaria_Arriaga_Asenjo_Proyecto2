@@ -18,7 +18,7 @@ public class HashTable implements IHashTable {
     public NodoTree get(String key, boolean mote) {
         int position = hash(key, mote);
         NodoTree person = table[position];
-        System.out.println(((Persona)person.getElement()).getNombre());
+        System.out.println(((Persona) person.getElement()).getNombre());
         Persona persona = (Persona) person.getElement();
         // Verificar si la persona en la posición coincide con la clave proporcionada
         if (persona != null) {
@@ -62,6 +62,17 @@ public class HashTable implements IHashTable {
         }
     }
 
+    /**
+     * Vacía todos los nodos de la tabla hash.
+     */
+    public void clear() {
+        for (int i = 0; i < max; i++) {
+            table[i] = null; // Elimina el nodo de cada posición
+        }
+        size = 0; // Reinicia el tamaño de la tabla a 0
+        System.out.println("La tabla hash ha sido vaciada.");
+    }
+
     @Override
     public boolean isEmpty() {
         return size == 0;
@@ -88,33 +99,6 @@ public class HashTable implements IHashTable {
     public int hash(String key, boolean mote) {
         long hashValue = transformString(key); // Genera el valor hash a partir de la clave
         int position = (int) (hashValue % max);
-
-        // Prueba cuadrática en caso de colisión
-//        int i = 0;
-//        String auxKey;
-//        do {
-//            NodoTree person = table[position];
-//            if (person == null) {
-//                System.out.println("Posicion libre encontrada: " + position);
-//                break;
-//            }
-//            Persona persona = (Persona) person.getElement();
-//            if (persona == null) {
-//                System.out.println("Persona en NodoTree es nula en la posicion: " + position);
-//                break;
-//            }
-//
-//            auxKey = mote ? persona.getApodo() : persona.getNombre() + persona.getNumeric();
-//            if (auxKey.equalsIgnoreCase(key)) {
-//                System.out.println("Clave coincidente encontrada: " + auxKey + " en la posicion: " + position);
-//                break;
-//            }
-//            
-//            i++;
-//            position = (position + i * i) % max;
-//            System.out.println("Resolviendo colision, nueva posicion: " + position);
-//        } while (table[position] != null);
-
         return position;
     }
 
@@ -139,17 +123,17 @@ public class HashTable implements IHashTable {
         String[] matches2;
         for (NodoTree person : table) {
             matches2 = matches;
-            if (person != null){
+            if (person != null) {
                 Persona element = (Persona) person.getElement();
                 if (mote) {
-                   if (element != null && element.getApodo().contains(key)) {
+                    if (element != null && element.getApodo().contains(key)) {
                         matches = new String[matches.length + 1];
                         matches[matches.length - 1] = element.getApodo();
                     }
                 } else {
                     if (element != null && (element.getNombre() + element.getNumeric()).toLowerCase().contains(key.toLowerCase())) {
                         matches2 = new String[matches.length + 1];
-                        for (int i = 0; i < matches.length; i++){
+                        for (int i = 0; i < matches.length; i++) {
                             matches2[i] = matches[i];
                         }
                         matches = matches2;

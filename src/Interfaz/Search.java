@@ -8,6 +8,7 @@ import Clases.NodoTree;
 import Clases.Persona;
 import Clases.Tree;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import proyecto2.HashTable;
 
 /**
@@ -27,6 +28,7 @@ public class Search extends javax.swing.JFrame {
      */
     public Search() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no se cierre el programa cuando se clickea "x"
     }
 
     /**

@@ -8,6 +8,7 @@ import Clases.ListaArray;
 import Clases.NodoTree;
 import Clases.Persona;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import proyecto2.HashTable;
 
@@ -24,6 +25,7 @@ public class VerRegistro extends javax.swing.JFrame {
      */
     public VerRegistro() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no se cierre el programa cuando se clickea "x"
     }
 
     /**

@@ -2,7 +2,8 @@ package Interfaz;
 
 import Clases.Lista;
 import Clases.Tree;
-
+import Interfaz.WindowManager;
+import javax.swing.JFrame;
 import proyecto2.HashTableTitles;
 
 
@@ -13,6 +14,7 @@ public class TitleSearch extends javax.swing.JFrame {
      */
     public TitleSearch() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no se cierre el programa cuando se clickea "x"
     }
 
     /**

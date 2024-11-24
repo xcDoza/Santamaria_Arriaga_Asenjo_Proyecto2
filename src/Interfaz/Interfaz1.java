@@ -211,8 +211,12 @@ public class Interfaz1 extends javax.swing.JFrame {
 
     private void parsearJson(String contenidoJson) {
         Gson gson = new Gson();
+        WindowManager.cerrarTodasLasVentanas();
+        personaHashTable.clear();
+        moteHashTable.clear();
+        titlesHashTable.clear();
         JsonObject jsonObject = gson.fromJson(contenidoJson, JsonObject.class);
-
+        
         // Paso 1: Obtener atributos únicos
         ListaArray atributosUnicos = obtenerAtributosUnicos(jsonObject);
 
@@ -250,6 +254,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 contador ++;
 //                personaHashTable.add(persona, false);//aniadimos personas a la hashtable
             }
+            casas.deleteBegin();
             casas.insertFinal(casa);
         }
 

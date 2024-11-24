@@ -10,7 +10,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 /**
- *
+ * Clase árbol junto con todas sus primitivas
  * @author sebas
  */
 public class Tree {
@@ -88,6 +88,7 @@ public class Tree {
 
     /**
      * Método para convertir el árbol en un grafo de GraphStream.
+     * @return 
      */
     public Graph toGraph() {
         Graph graph = new SingleGraph("Tree Graph");
