@@ -7,6 +7,7 @@ package Interfaz;
 import Clases.NodoTree;
 import Clases.Persona;
 import Clases.Tree;
+import javax.swing.JFrame;
 import proyecto2.HashTable;
 
 /**
@@ -25,6 +26,7 @@ public class Search extends javax.swing.JFrame {
     public Search() {
         initComponents();
         SearchResults.removeAll();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

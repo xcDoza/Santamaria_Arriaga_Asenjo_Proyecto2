@@ -8,6 +8,7 @@ import Clases.ListaArray;
 import Clases.NodoArray;
 import Clases.Persona;
 import Clases.Tree;
+import javax.swing.JFrame;
 
 /**
  *
@@ -24,6 +25,8 @@ public class ListaGeneracion extends javax.swing.JFrame {
         initComponents();
         this.arbolGenealogico = arbolGenealogico;
         llenarComboBoxGeneraciones();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no se cierre el programa cuando se clickea "x"
+        WindowManager.registrarVentana(this);
     }
 
     /**

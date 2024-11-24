@@ -74,6 +74,17 @@ public class HashTableTitles{
     public int getMax() {
         return max;
     }
+    
+    /**
+     * Vacía todos los nodos de la tabla hash.
+     */
+    public void clear() {
+        for (int i = 0; i < max; i++) {
+            table[i] = null; // Elimina el nodo de cada posición
+        }
+        size = 0; // Reinicia el tamaño de la tabla a 0
+        System.out.println("La tabla hash ha sido vaciada.");
+    }
 
     /**
      * Método hash para calcular la posición en la tabla

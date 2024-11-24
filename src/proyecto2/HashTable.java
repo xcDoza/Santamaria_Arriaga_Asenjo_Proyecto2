@@ -115,6 +115,17 @@ public class HashTable implements IHashTable {
 
         return position;
     }
+    
+    /**
+     * Vacía todos los nodos de la tabla hash.
+     */
+    public void clear() {
+        for (int i = 0; i < max; i++) {
+            table[i] = null; // Elimina el nodo de cada posición
+        }
+        size = 0; // Reinicia el tamaño de la tabla a 0
+        System.out.println("La tabla hash ha sido vaciada.");
+    }
 
     /**
      * Transforma un String en un valor numérico para el hash

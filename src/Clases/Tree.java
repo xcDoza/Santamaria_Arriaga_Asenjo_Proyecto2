@@ -90,19 +90,24 @@ public class Tree {
     public Graph toGraph() {
         Graph graph = new SingleGraph("Tree Graph");
         if (isEmpty()) {
-            System.out.println("El arbol esta vacio. No se puede mostrar.");
+            System.out.println("El árbol está vacío. No se puede mostrar.");
             return graph;
         }
 
-        // Recorrer el árbol y añadir nodos y aristas al grafo
-        addNodeToGraph(graph, root, null, 0, 0);
+        // Coordenadas iniciales para la raíz
+        double rootX = 0; // Centro en el eje X
+        double rootY = 0; // Nivel superior
 
-        // Configurar estilo básico del grafo
+        // Añadir nodos y aristas al grafo
+        addNodeToGraph(graph, root, null, rootX, rootY);
+
+        // Configurar estilos de visualización
         graph.setAttribute("ui.stylesheet",
-                "node { size: 20px; fill-color: blue; text-alignment: center; text-size: 15px; }"
+                "node { size: 20px; fill-color: gray; text-alignment: center; text-size: 15px; }"
                 + "edge { fill-color: black; }");
         graph.setAttribute("ui.quality");
         graph.setAttribute("ui.antialias");
+
         return graph;
     }
 
@@ -113,22 +118,35 @@ public class Tree {
         if (nodo == null) {
             return;
         }
+        int xx = 0;
+        int yy = 0;
+        int zz = 0;
 
         String nodeId = String.valueOf(nodo.getKey());
+
+        // Añadir el nodo al grafo y asignarle la etiqueta
         graph.addNode(nodeId).setAttribute("ui.label", nodo.getElement().toString());
-        graph.getNode(nodeId).setAttribute("xyz", new double[]{x, y, 0});//asignamos coordenadas (x, y)
+        graph.getNode(nodeId).setAttribute("xyz", xx,yy,zz); // Fijar la posición (x, y, z)
 
         if (parentId != null) {
             graph.addEdge(parentId + "-" + nodeId, parentId, nodeId);
         }
 
-        double childY = y - 1; //separacion vertical entre generaciones
-        double childX = x - (nodo.getSons().length - 1) * 0.5; //osicion horizontal inicial para los hijos
+        // Configurar posiciones para los hijos
+        int numHijos = nodo.getSons().length;
+        if (numHijos > 0) {
+            double spacing = 2.0; // Espaciado horizontal entre nodos hijos
+            double startX = x - spacing * (numHijos - 1) / 2.0; // Posición inicial en x para los hijos
 
-        for (NodoTree child : nodo.getSons()) {
-            addNodeToGraph(graph, child, nodeId, childX, childY);
-            childX += 2; //separacion horizontal entre nodos
+            for (int i = 0; i < numHijos; i++) {
+                NodoTree hijo = nodo.getSons()[i];
+                double childX = startX + i * spacing; // Calcular posición x para cada hijo
+                double childY = y - 1; // Nivel siguiente en el eje y
+                addNodeToGraph(graph, hijo, nodeId, childX, childY); // Recursión para los hijos
+            }
         }
+        xx = xx+10;
+        yy = yy +10;
     }
 
     /**

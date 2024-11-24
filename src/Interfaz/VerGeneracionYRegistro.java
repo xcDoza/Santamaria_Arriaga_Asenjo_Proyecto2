@@ -10,6 +10,7 @@ import Clases.NodoTree;
 import Clases.Persona;
 import Clases.Tree;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import proyecto2.HashTable;
 
@@ -30,6 +31,7 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
         this.arbolGenealogico = arbolGenealogico;
         this.personaHashTable = personaHashTable;
         llenarComboBoxGeneraciones();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

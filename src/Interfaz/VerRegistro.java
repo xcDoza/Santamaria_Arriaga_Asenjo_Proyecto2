@@ -7,6 +7,7 @@ package Interfaz;
 import Clases.ListaArray;
 import Clases.NodoTree;
 import Clases.Persona;
+import javax.swing.JFrame;
 import proyecto2.HashTable;
 
 /**
@@ -22,6 +23,7 @@ public class VerRegistro extends javax.swing.JFrame {
      */
     public VerRegistro() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
