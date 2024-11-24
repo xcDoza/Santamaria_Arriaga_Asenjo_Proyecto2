@@ -4,8 +4,6 @@
  */
 package Clases;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
@@ -174,22 +172,18 @@ public class Tree {
         return alturaMaxima + 1;
     }
 
-    public List<Persona> obtenerIntegrantesDeGeneracion(int generacion) {
-        List<Persona> integrantes = new ArrayList<>();
+    public ListaArray obtenerIntegrantesDeGeneracion(int generacion, int maxSize) {
+        ListaArray integrantes = new ListaArray(maxSize);
         obtenerIntegrantesDeGeneracion(getRoot(), generacion -1 , 0, integrantes);
-        System.out.println("Generacion: " + generacion + " - Integrantes: " + integrantes.size());
-        for (Persona persona : integrantes) {
-            System.out.println(" - " + persona.getNombre());
-        }
         return integrantes;
     }
 
-    private void obtenerIntegrantesDeGeneracion(NodoTree nodo, int generacion, int nivelActual, List<Persona> integrantes) {
+    private void obtenerIntegrantesDeGeneracion(NodoTree nodo, int generacion, int nivelActual, ListaArray integrantes) {
         if (nodo == null) {
             return;
         }
         if (nivelActual == generacion) {
-            integrantes.add((Persona) nodo.getElement());
+            integrantes.insertFinal((Persona) nodo.getElement());
             System.out.println("Aniadido: " + ((Persona) nodo.getElement()).getNombre() + " en generacion " + nivelActual);
         }
         for (NodoTree hijo : nodo.getSons()) {

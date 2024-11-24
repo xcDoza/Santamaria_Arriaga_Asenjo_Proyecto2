@@ -4,9 +4,10 @@
  */
 package Interfaz;
 
+import Clases.ListaArray;
+import Clases.NodoArray;
 import Clases.Persona;
 import Clases.Tree;
-import java.util.List;
 
 /**
  *
@@ -94,10 +95,15 @@ public class ListaGeneracion extends javax.swing.JFrame {
 
     private void CargarIntegrantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarIntegrantesActionPerformed
         int generacion = Generaciones.getSelectedIndex() + 1;
-        List<Persona> integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion);
+        ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100); // Suponiendo un tamaño máximo de 100
         IntegrantesGen.setText("");
-        for (Persona persona : integrantes) {
-            IntegrantesGen.append(persona.getNombre() + "\n");
+        NodoArray[] arrayIntegrantes = integrantes.getArray();
+        for (int i = 0; i < integrantes.getSize(); i++) {
+            NodoArray nodoIntegrante = arrayIntegrantes[i];
+            if (nodoIntegrante != null) {
+                Persona persona = (Persona) nodoIntegrante.getElement();
+                IntegrantesGen.append(persona.getNombre() + "\n");
+            }
         }
     }//GEN-LAST:event_CargarIntegrantesActionPerformed
 

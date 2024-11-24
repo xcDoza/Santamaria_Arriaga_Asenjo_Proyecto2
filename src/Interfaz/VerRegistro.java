@@ -7,8 +7,6 @@ package Interfaz;
 import Clases.ListaArray;
 import Clases.NodoTree;
 import Clases.Persona;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
 import proyecto2.HashTable;
 
 /**
