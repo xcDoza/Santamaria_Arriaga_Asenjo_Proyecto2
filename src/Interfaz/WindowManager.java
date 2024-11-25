@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Esta clase funciona para cerrar todas las demás
+ * 
  */
 package Interfaz;
 
@@ -8,7 +8,7 @@ import Clases.Lista;
 import Clases.Nodo;
 import javax.swing.JFrame;
 /**
- *
+ * Toma como parametros una lista para meter todas las interfaces dentro de ella.
  * @author sebas
  */
 public class WindowManager {

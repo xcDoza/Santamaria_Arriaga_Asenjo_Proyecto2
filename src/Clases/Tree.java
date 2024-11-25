@@ -84,7 +84,7 @@ public class Tree {
         newSons[newSons.length - 1] = nodo;
         father.setSons(newSons);
     }
-
+    
     /**
      * Método para convertir el árbol en un grafo de GraphStream.
      * @return 
@@ -170,6 +170,82 @@ public class Tree {
         Viewer viewer = graph.display();
         viewer.disableAutoLayout();
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+    }
+    
+    // Método para mostrar los antepasados de una persona
+    public Lista<Persona> obtenerAntepasados(String nombreCompleto) {
+        Lista<Persona> antepasados = new Lista<>();
+        NodoTree nodoPersona = buscarNodoPorNombre(getRoot(), nombreCompleto);
+
+        if (nodoPersona == null) {
+            System.out.println("No se encontró la persona en el árbol: " + nombreCompleto);
+            return antepasados;
+        }
+
+        // Recorrer hacia arriba agregando antepasados
+        NodoTree nodoActual = nodoPersona;
+        while (nodoActual != null) {
+            Persona persona = (Persona) nodoActual.getElement();
+            antepasados.insertFinal(persona);
+            nodoActual = buscarPadre(getRoot(), nodoActual); // Obtener el padre
+        }
+
+        return antepasados;
+    }
+
+    // Método para buscar un nodo por nombre
+    private NodoTree buscarNodoPorNombre(NodoTree nodo, String nombreCompleto) {
+        if (nodo == null) {
+            return null;
+        }
+
+        Persona persona = (Persona) nodo.getElement();
+        if (persona != null && persona.getNombre().equalsIgnoreCase(nombreCompleto)) {
+            return nodo;
+        }
+
+        // Recorrer los hijos
+        for (NodoTree hijo : nodo.getSons()) {
+            NodoTree encontrado = buscarNodoPorNombre(hijo, nombreCompleto);
+            if (encontrado != null) {
+                return encontrado;
+            }
+        }
+
+        return null; // No encontrado
+    }
+
+    // Método para buscar al padre de un nodo
+    private NodoTree buscarPadre(NodoTree nodo, NodoTree hijo) {
+        if (nodo == null) {
+            return null;
+        }
+
+        for (NodoTree nodoHijo : nodo.getSons()) {
+            if (nodoHijo == hijo) {
+                return nodo; // El nodo actual es el padre
+            }
+
+            NodoTree encontrado = buscarPadre(nodoHijo, hijo);
+            if (encontrado != null) {
+                return encontrado;
+            }
+        }
+
+        return null; // No encontrado
+    }
+
+    // Mostrar los antepasados gráficamente
+    public void mostrarAntepasados(String nombreCompleto) {
+        Lista<Persona> antepasados = obtenerAntepasados(nombreCompleto);
+
+        if (antepasados.esVacio()) {
+            System.out.println("No se encontraron antepasados para: " + nombreCompleto);
+            return;
+        }
+
+        // Mostrar la lista gráficamente
+        antepasados.displayGraph();
     }
 
     public void print(NodoTree root) {

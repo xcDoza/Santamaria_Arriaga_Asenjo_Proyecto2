@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Esta clase se utiliza para gestionar una interfaz gráfica en la que se pueden visualizar y seleccionar integrantes de diferentes generaciones de un árbol genealógico. 
+   Además, permite mostrar información detallada sobre una persona seleccionada de la lista. 
  */
 package Interfaz;
 
@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
 import proyecto2.HashTable;
 
 /**
- *
+ * Instancia de la clase Tree que representa el árbol genealógico.
+ * Instancia de la clase HashTable que almacena las personas y sus atributos.
  * @author xc2do
  */
 public class VerGeneracionYRegistro extends javax.swing.JFrame {
@@ -24,7 +25,8 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
     private HashTable personaHashTable; //declara la variable personaHashTable
 
     /**
-     * Creates new form VerGeneracionYRegistro
+     * Este constructor inicializa la interfaz gráfica y 
+     * recibe como parámetros el árbol genealógico (arbolGenealogico) y la tabla hash (personaHashTable) que contienen la información de las personas.
      */
     public VerGeneracionYRegistro(Tree arbolGenealogico, HashTable personaHashTable) {
         initComponents();

@@ -1,11 +1,10 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Implementa un mapa genérico utilizando una lista enlazada para almacenar pares clave-valor.
  */
 package Clases;
 
 /**
- *
+ * Lista que almacena pares clave-valor
  * @author sebas
  * @param <K>
  * @param <V>

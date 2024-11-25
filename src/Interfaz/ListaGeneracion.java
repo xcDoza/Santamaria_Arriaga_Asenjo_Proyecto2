@@ -11,7 +11,10 @@ import Clases.Tree;
 import javax.swing.JFrame;
 
 /**
- *
+ * Esta clase representa una ventana gráfica que permite visualizar los integrantes de
+ * una determinada generación dentro de un árbol genealógico. La interfaz gráfica está 
+ * diseñada con el uso de un comboBox para seleccionar la generación y un área de texto 
+ * para mostrar los integrantes de la generación seleccionada.
  * @author xc2do
  */
 public class ListaGeneracion extends javax.swing.JFrame {
@@ -19,7 +22,9 @@ public class ListaGeneracion extends javax.swing.JFrame {
     private Tree arbolGenealogico;
 
     /**
-     * Creates new form ListaGeneracion
+     * Constructor de la clase ListaGeneracion.
+     * Inicializa la ventana, registra la ventana y llena el comboBox con las generaciones 
+     * disponibles en el árbol genealógico.
      * @param arbolGenealogico
      */
     public ListaGeneracion(Tree arbolGenealogico) {
@@ -97,6 +102,12 @@ public class ListaGeneracion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método que se ejecuta cuando se selecciona una generación en el comboBox. 
+     * Obtiene los integrantes de la generación seleccionada y los muestra en el área de texto.
+     * 
+     * @param evt El evento de acción generado por la selección en el comboBox
+     */
     private void GeneracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneracionesActionPerformed
         int generacion = Generaciones.getSelectedIndex() + 1;
         ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100);
@@ -111,6 +122,12 @@ public class ListaGeneracion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GeneracionesActionPerformed
 
+    /**
+     * Método que se ejecuta cuando se presiona el botón de cargar integrantes. 
+     * Obtiene los integrantes de la generación seleccionada y los muestra en el área de texto.
+     * 
+     * @param evt El evento de acción generado por el botón de cargar integrantes
+     */
     private void CargarIntegrantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarIntegrantesActionPerformed
         int generacion = Generaciones.getSelectedIndex() + 1;
         ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100);
@@ -125,6 +142,10 @@ public class ListaGeneracion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CargarIntegrantesActionPerformed
 
+    /**
+     * Método que llena el comboBox con las generaciones del árbol genealógico. 
+     * Se asume que el árbol tiene un máximo de 10 generaciones.
+     */
     private void llenarComboBoxGeneraciones() {
         Generaciones.removeAllItems();
         int alturaArbol = arbolGenealogico.obtenerAlturaArbol();

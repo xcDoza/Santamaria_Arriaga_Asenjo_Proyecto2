@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Clase genérica que implementa una lista enlazada con operaciones básicas como insertar, buscar, verificar existencia, y conversión a grafo.
+ * 
  */
 package Clases;
 
@@ -8,7 +8,9 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 /**
- *
+ * Nodo inicial de la lista
+ * Nodo final de la lista
+ * Tamaño de la lista
  * @author xc2do
  * @param <T>
  */

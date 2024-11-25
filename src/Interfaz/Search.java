@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Interfaz para realizar búsquedas a través de la persona y de los motes
+ * 
  */
 package Interfaz;
 
@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import proyecto2.HashTable;
 
 /**
- *
+ * Toma como parámetros el HashTable de cada persona y de los motes
  * @author Eddy
  */
 public class Search extends javax.swing.JFrame {
