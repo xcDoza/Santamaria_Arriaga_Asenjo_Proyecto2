@@ -111,10 +111,12 @@ public class Search extends javax.swing.JFrame {
     }
     
     private void SearchTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTypeActionPerformed
-        if(SearchType.getSelectedItem().equals("Nombre + numeral")){
-            activeSearch = 0;
-        } else {
-            activeSearch = 1;
+        if (SearchType.getSelectedItem() != null){
+            if(SearchType.getSelectedItem().equals("Nombre + numeral")){
+                activeSearch = 0;
+            } else {
+                activeSearch = 1;
+            }
         }
     }//GEN-LAST:event_SearchTypeActionPerformed
 

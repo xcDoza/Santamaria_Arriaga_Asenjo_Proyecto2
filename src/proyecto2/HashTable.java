@@ -23,8 +23,14 @@ public class HashTable implements IHashTable {
         // Verificar si la persona en la posición coincide con la clave proporcionada
         if (persona != null) {
             String expectedKey = persona.getNombre() + persona.getNumeric();
-            if (expectedKey.equalsIgnoreCase(key) || persona.getApodo().equalsIgnoreCase(key)) {
-                return person;
+            if (mote){
+                if (persona.getApodo().equalsIgnoreCase(key)){
+                    return person;
+                }
+            } else {
+                if(expectedKey.equalsIgnoreCase(key)){
+                    return person;
+                }
             }
         }
         return null; // Retornar null si no hay coincidencia

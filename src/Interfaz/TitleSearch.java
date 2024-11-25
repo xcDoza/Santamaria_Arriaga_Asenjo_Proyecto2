@@ -1,17 +1,20 @@
 package Interfaz;
 
 import Clases.Lista;
+import Clases.ListaArray;
 import Clases.Nodo;
 import Clases.Persona;
 import Clases.Tree;
 import Interfaz.WindowManager;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import proyecto2.HashTableTitles;
 
 
 public class TitleSearch extends javax.swing.JFrame {
 
     private HashTableTitles titlesHashTable;
+    private Lista currentResults;
 
     /**
      * Creates new form TitleSearch
@@ -102,10 +105,9 @@ public class TitleSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchBtnActionPerformed
 
     private void SelectResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectResultBtnActionPerformed
-        Lista result;
-        result = titlesHashTable.get(SearchResults.getSelectedValue());
-        String[] aux = new String[result.getSize()];
-        Nodo r = result.getHead();
+        currentResults = titlesHashTable.get(SearchResults.getSelectedValue());
+        String[] aux = new String[currentResults.getSize()];
+        Nodo r = currentResults.getHead();
         int i = 0;
         while (r != null){
             aux[i] = ((Persona) r.getElement()).getNombre();
@@ -117,7 +119,15 @@ public class TitleSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_SelectResultBtnActionPerformed
 
     private void PersonSelectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PersonSelectBtnActionPerformed
-        // TODO add your handling code here:
+        Persona persona = (Persona) currentResults.get(PersonSelect.getSelectedValue());
+        StringBuilder info = new StringBuilder();
+        info.append("Nombre: ").append(persona.getNombre()).append("\n");
+        info.append("Apodo: ").append(persona.getApodo()).append("\n");
+        ListaArray atributos = persona.getAtributos();
+        for (int i = 0; i < atributos.getMaxSize(); i++) {
+            info.append(atributos.toStringAt(i)).append("\n");
+        }
+        JOptionPane.showMessageDialog(rootPane, info);
     }//GEN-LAST:event_PersonSelectBtnActionPerformed
 
     /**

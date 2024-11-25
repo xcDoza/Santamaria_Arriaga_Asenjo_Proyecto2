@@ -248,4 +248,14 @@ public class Lista<T> {
         graph.display();
     }
     
+    public Object get(T valor){
+        Nodo aux = getHead();
+        while (aux != null &&  ((Persona)aux.getElement()).getNombre() != valor){
+            aux = aux.getNext();
+        }
+        if (aux != null){
+            return aux.getElement();
+        }
+        return null;
+    }
 }
