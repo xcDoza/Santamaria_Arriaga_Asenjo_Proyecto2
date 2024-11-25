@@ -169,6 +169,7 @@ public class Tree {
         });
         Viewer viewer = graph.display();
         viewer.disableAutoLayout();
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
     }
 
     public void print(NodoTree root) {

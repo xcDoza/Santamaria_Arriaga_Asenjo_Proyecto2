@@ -49,7 +49,6 @@ public class Interfaz1 extends javax.swing.JFrame {
 
     public Interfaz1() {
         initComponents();
-        setSize(800, 600);
         setLocationRelativeTo(null);
         houseTree = new Tree();
         personaHashTable = new HashTable(); // Inicializa la HashTable
@@ -74,12 +73,13 @@ public class Interfaz1 extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btnCargarArchivo = new javax.swing.JButton();
-        VerRegistro = new javax.swing.JButton();
-        VerGeneraciones = new javax.swing.JButton();
-        SearchBtn = new javax.swing.JButton();
-        titleSearchBtn = new javax.swing.JButton();
-        genyregisbtn = new javax.swing.JButton();
+        CargarArchivoBtn = new javax.swing.JLabel();
+        VerRegistroBtn = new javax.swing.JLabel();
+        BuscarPorNombreBtn = new javax.swing.JLabel();
+        VerAntepasadosBtn = new javax.swing.JLabel();
+        BuscarPorTituloBtn = new javax.swing.JLabel();
+        VerArbolBtn = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,52 +87,58 @@ public class Interfaz1 extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, -1, -1));
 
-        btnCargarArchivo.setText("Cargar Archivo");
-        btnCargarArchivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCargarArchivoActionPerformed(evt);
+        CargarArchivoBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CargarArchivoBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CargarArchivoBtnMouseClicked(evt);
             }
         });
-        getContentPane().add(btnCargarArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
+        getContentPane().add(CargarArchivoBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 190, 260, 60));
 
-        VerRegistro.setText("VerRegistro");
-        VerRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerRegistroActionPerformed(evt);
+        VerRegistroBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VerRegistroBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VerRegistroBtnMouseClicked(evt);
             }
         });
-        getContentPane().add(VerRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
+        getContentPane().add(VerRegistroBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 260, 50));
 
-        VerGeneraciones.setText("Ver Generaciones");
-        VerGeneraciones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerGeneracionesActionPerformed(evt);
+        BuscarPorNombreBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarPorNombreBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BuscarPorNombreBtnMouseClicked(evt);
             }
         });
-        getContentPane().add(VerGeneraciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
+        getContentPane().add(BuscarPorNombreBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 340, 260, 50));
 
-        SearchBtn.setText("Buscar");
-        SearchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchBtnActionPerformed(evt);
+        VerAntepasadosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VerAntepasadosBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VerAntepasadosBtnMouseClicked(evt);
             }
         });
-        getContentPane().add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 90, -1));
+        getContentPane().add(VerAntepasadosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 410, 260, 60));
 
-        titleSearchBtn.setText("Buscar por titulos");
-        titleSearchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                titleSearchBtnActionPerformed(evt);
+        BuscarPorTituloBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarPorTituloBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BuscarPorTituloBtnMouseClicked(evt);
             }
         });
-        getContentPane().add(titleSearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 150, -1));
-        genyregisbtn.setText("VerGeneracionYRegistro");
-        genyregisbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genyregisbtnActionPerformed(evt);
+        getContentPane().add(BuscarPorTituloBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 480, 260, 60));
+
+        VerArbolBtn.setToolTipText("");
+        VerArbolBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VerArbolBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VerArbolBtnMouseClicked(evt);
             }
         });
-        getContentPane().add(genyregisbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
+        getContentPane().add(VerArbolBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, 190, 180));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/1.png"))); // NOI18N
+        jLabel1.setToolTipText("");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -149,8 +155,8 @@ public class Interfaz1 extends javax.swing.JFrame {
         this.titlesHashTable = titlesHashTable;
     }
 
-    private void btnCargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarArchivoActionPerformed
-        // TODO add your handling code here:
+
+    private void CargarArchivoBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarArchivoBtnMouseClicked
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
 
@@ -163,7 +169,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 try {
                     String contenidoJson = leerArchivoJson(filePath);
                     parsearJson(contenidoJson);
-                    houseTree.displayGraph(); //con esto mostramos el grafo al parsear el json
+//                    houseTree.displayGraph(); //con esto mostramos el grafo al parsear el json
                     verRegistroFrame.poblarComboBox(); // Asegúrate de llamar a poblarComboBox después de parsear el JSON y añadir nodos a la HashTable
 
                 } catch (IOException e) {
@@ -173,32 +179,29 @@ public class Interfaz1 extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor, selecciona un archivo .json", "Archivo inválido", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnCargarArchivoActionPerformed
+    }//GEN-LAST:event_CargarArchivoBtnMouseClicked
 
-    private void VerRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerRegistroActionPerformed
-        verRegistroFrame.poblarComboBox();
-        verRegistroFrame.setVisible(true);
-    }//GEN-LAST:event_VerRegistroActionPerformed
-
-
-    private void VerGeneracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerGeneracionesActionPerformed
-        ListaGeneracion listaGeneracionForm = new ListaGeneracion(houseTree);
-        listaGeneracionForm.setVisible(true);
-    }//GEN-LAST:event_VerGeneracionesActionPerformed
-
-    private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
-        searchFrame.poblarSearchType();
-        searchFrame.setVisible(true);
-    }//GEN-LAST:event_SearchBtnActionPerformed
-
-    private void titleSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleSearchBtnActionPerformed
-        titleSearchFrame.setVisible(true);
-    }//GEN-LAST:event_titleSearchBtnActionPerformed
-
-    private void genyregisbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genyregisbtnActionPerformed
+    private void VerRegistroBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VerRegistroBtnMouseClicked
         VerGeneracionYRegistro listaGeneracionForm = new VerGeneracionYRegistro(houseTree, personaHashTable);
         listaGeneracionForm.setVisible(true);
-    }//GEN-LAST:event_genyregisbtnActionPerformed
+    }//GEN-LAST:event_VerRegistroBtnMouseClicked
+
+    private void BuscarPorNombreBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarPorNombreBtnMouseClicked
+        searchFrame.poblarSearchType();
+        searchFrame.setVisible(true);
+    }//GEN-LAST:event_BuscarPorNombreBtnMouseClicked
+
+    private void VerAntepasadosBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VerAntepasadosBtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerAntepasadosBtnMouseClicked
+
+    private void BuscarPorTituloBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarPorTituloBtnMouseClicked
+        titleSearchFrame.setVisible(true);
+    }//GEN-LAST:event_BuscarPorTituloBtnMouseClicked
+
+    private void VerArbolBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VerArbolBtnMouseClicked
+        houseTree.displayGraph(); //con esto mostramos el grafo al parsear el json
+    }//GEN-LAST:event_VerArbolBtnMouseClicked
 
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
@@ -417,12 +420,13 @@ public class Interfaz1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton SearchBtn;
-    private javax.swing.JButton VerGeneraciones;
-    private javax.swing.JButton VerRegistro;
-    private javax.swing.JButton btnCargarArchivo;
-    private javax.swing.JButton genyregisbtn;
+    private javax.swing.JLabel BuscarPorNombreBtn;
+    private javax.swing.JLabel BuscarPorTituloBtn;
+    private javax.swing.JLabel CargarArchivoBtn;
+    private javax.swing.JLabel VerAntepasadosBtn;
+    private javax.swing.JLabel VerArbolBtn;
+    private javax.swing.JLabel VerRegistroBtn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton titleSearchBtn;
     // End of variables declaration//GEN-END:variables
 }
