@@ -14,8 +14,10 @@ import javax.swing.JFrame;
 public class MostrarAntepasados extends javax.swing.JFrame {
 
     private Tree arbolGenealogico;
+
     /**
      * Creates new form MostrarAntepasados
+     *
      * @param arbolGenealogico
      */
     public MostrarAntepasados(Tree arbolGenealogico) {
@@ -34,10 +36,10 @@ public class MostrarAntepasados extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         txtNombrePersona = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         btnMostrarAntepasados = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -45,18 +47,20 @@ public class MostrarAntepasados extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 46, -1, -1));
 
+        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 200, 200));
+
         txtNombrePersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombrePersonaActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 150, -1));
-
-        jLabel1.setText("Ingresar nombre de la persona (Ej: Robert Baratheon, First of his name)");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
-
-        jLabel2.setText("Mostrar Antepasados");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, -1, -1));
+        getContentPane().add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 260, 340, 30));
 
         btnMostrarAntepasados.setText("Buscar");
         btnMostrarAntepasados.addActionListener(new java.awt.event.ActionListener() {
@@ -64,7 +68,11 @@ public class MostrarAntepasados extends javax.swing.JFrame {
                 btnMostrarAntepasadosActionPerformed(evt);
             }
         });
-        getContentPane().add(btnMostrarAntepasados, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 90, -1));
+        getContentPane().add(btnMostrarAntepasados, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 330, 90, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/2_1.png"))); // NOI18N
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -76,13 +84,22 @@ public class MostrarAntepasados extends javax.swing.JFrame {
     private void btnMostrarAntepasadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarAntepasadosActionPerformed
         // TODO add your handling code here:
         String nombreCompleto = txtNombrePersona.getText().trim();
-    if (!nombreCompleto.isEmpty()) {
-        arbolGenealogico.mostrarAntepasados(nombreCompleto);
-    } else {
-        System.out.println("Por favor, ingrese un nombre válido.");
-    }
+        if (!nombreCompleto.isEmpty()) {
+            arbolGenealogico.mostrarAntepasados(nombreCompleto);
+        } else {
+            System.out.println("Por favor, ingrese un nombre válido.");
+        }
 
     }//GEN-LAST:event_btnMostrarAntepasadosActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        String nombreCompleto = txtNombrePersona.getText().trim();
+        if (!nombreCompleto.isEmpty()) {
+            arbolGenealogico.mostrarAntepasados(nombreCompleto);
+        } else {
+            System.out.println("Por favor, ingrese un nombre válido.");
+        }
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -122,8 +139,8 @@ public class MostrarAntepasados extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMostrarAntepasados;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtNombrePersona;
     // End of variables declaration//GEN-END:variables
