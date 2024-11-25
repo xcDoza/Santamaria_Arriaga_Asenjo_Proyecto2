@@ -4,6 +4,9 @@
  */
 package Clases;
 
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+
 /**
  *
  * @author xc2do
@@ -160,6 +163,65 @@ public class Lista<T> {
             System.out.println(aux.getElement());
             aux = aux.getNext();
         }
+    }
+    
+    // Método para convertir la lista en un grafo de GraphStream
+    public Graph toGraph() {
+        Graph graph = new SingleGraph("Lista Graph");
+
+        if (esVacio()) {
+            System.out.println("La lista está vacía. No se puede convertir a grafo.");
+            return graph;
+        }
+
+        // Configuración inicial
+        graph.setAttribute("ui.stylesheet",
+                "node { size: 20px; fill-color: gray; text-alignment: center; text-size: 15px; }"
+                + "edge { fill-color: black; }");
+        graph.setAttribute("ui.quality");
+        graph.setAttribute("ui.antialias");
+
+        // Variables para las coordenadas iniciales de los nodos
+        double x = 0;
+        double y = 0;
+        Nodo<T> current = head;
+
+        // Iterar sobre la lista y añadir nodos/aristas
+        while (current != null) {
+            String nodeId = current.getKey() != null ? current.getKey() : String.valueOf(current.hashCode());
+            graph.addNode(nodeId).setAttribute("ui.label", current.getElement().toString());
+            graph.getNode(nodeId).setAttribute("xyz", x, y, 0); // Asignar coordenadas
+            x += 2; // Espaciado horizontal entre nodos
+
+            if (current.getNext() != null) {
+                String nextNodeId = current.getNext().getKey() != null ? current.getNext().getKey()
+                        : String.valueOf(current.getNext().hashCode());
+                graph.addEdge(nodeId + "-" + nextNodeId, nodeId, nextNodeId);
+            }
+
+            current = current.getNext();
+        }
+
+        return graph;
+    }
+
+    // Método para mostrar gráficamente la lista
+    public void displayGraph() {
+        System.setProperty("org.graphstream.ui", "swing");
+        Graph graph = toGraph();
+
+        // Verifica que los nodos tengan coordenadas asignadas y maneja el tipo del atributo xyz
+        graph.nodes().forEach(node -> {
+            Object posObj = node.getAttribute("xyz");
+            if (posObj instanceof double[]) {
+                double[] pos = (double[]) posObj;
+                System.out.println("Nodo con posición válida: " + node.getId() + " - [" + pos[0] + ", " + pos[1] + "]");
+            } else {
+                System.out.println("Nodo sin posición válida: " + node.getId());
+            }
+        });
+
+        graph.display();
     }
 
     public Nodo<T> getHead() {
