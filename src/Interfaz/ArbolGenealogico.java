@@ -1,6 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/* 
+ * Esta clase representa la lógica para construir y manipular un árbol genealógico a partir de datos proporcionados. 
+   La clase utiliza estructuras como Tree y Map para organizar la información y permitir operaciones sobre los nodos y las relaciones familiares.
  */
 package Interfaz;
 
@@ -14,9 +14,11 @@ import Clases.Persona;
 import Clases.Tree;
 
 /**
- *
+ * Representa el árbol genealógico principal, donde se almacenan las relaciones entre las personas.
+ * Mapa que relaciona identificadores únicos con objetos de tipo Persona. Esto permite localizar personas rápidamente.
  * @author sebas
  */
+
 public class ArbolGenealogico {
 
     private Tree arbolGenealogico;
@@ -147,7 +149,7 @@ public class ArbolGenealogico {
         }
         return null; // No se encontró
     }
-
+    
     private String limpiarNombre(String nombreCompleto) {
         if (nombreCompleto.contains(" ")) {
             return nombreCompleto.split(" ")[0]; // Usar solo el primer nombre
@@ -166,4 +168,6 @@ public class ArbolGenealogico {
     public Tree getArbolGenealogico() {
         return arbolGenealogico;
     }
+    
+    
 }

@@ -1,3 +1,7 @@
+/*
+ * Esta clase representa una interfaz gráfica que permite visualizar e interactuar con las generaciones de un árbol genealógico. 
+    Los usuarios pueden seleccionar una generación específica desde un combo box y ver los integrantes de la misma.
+ */
 package Interfaz;
 
 import Clases.Lista;
@@ -14,7 +18,8 @@ public class TitleSearch extends javax.swing.JFrame {
     private HashTableTitles titlesHashTable;
 
     /**
-     * Creates new form TitleSearch
+     * Constructor de la clase. Inicializa los componentes de la interfaz y asigna el árbol genealógico. 
+     * También se registra la ventana y se establece el comportamiento al cerrar la ventana.
      */
     public TitleSearch() {
         initComponents();

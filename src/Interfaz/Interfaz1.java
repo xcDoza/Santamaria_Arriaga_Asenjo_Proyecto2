@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Interfaz principal, en ella se llaman a todas las demas interfaces a través de botones. Además se realiza el parseo.
+ * 
  */
 package Interfaz;
 
@@ -33,7 +33,7 @@ import proyecto2.HashTable;
 public class Interfaz1 extends javax.swing.JFrame {
 
     /**
-     * Creates new form Interfaz1
+     * Toma el árbolGenealógico, junto con los Hash correspondientes y todas las demás interfaces.
      */
     private Tree houseTree;
     private Search searchFrame;
@@ -43,6 +43,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private HashTable moteHashTable;
     private HashTableTitles titlesHashTable;
     private VerGeneracionYRegistro VerGeneracionYRegistro;
+    private MostrarAntepasados MostrarAntepasados;
 
     Lista casas = new Lista();
 
@@ -55,6 +56,7 @@ public class Interfaz1 extends javax.swing.JFrame {
         titlesHashTable = new HashTableTitles(); // Inicializa la HashTable
         searchFrame = new Search();
         titleSearchFrame = new TitleSearch();
+        MostrarAntepasados = new MostrarAntepasados(houseTree);
         searchFrame.setPersonaHashTable(personaHashTable);
         searchFrame.setMoteHashTable(moteHashTable);
         titleSearchFrame.setTitlesHashTable(titlesHashTable);
@@ -190,6 +192,7 @@ public class Interfaz1 extends javax.swing.JFrame {
 
     private void VerAntepasadosBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VerAntepasadosBtnMouseClicked
         // TODO add your handling code here:
+        MostrarAntepasados.setVisible(true);
     }//GEN-LAST:event_VerAntepasadosBtnMouseClicked
 
     private void BuscarPorTituloBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarPorTituloBtnMouseClicked
