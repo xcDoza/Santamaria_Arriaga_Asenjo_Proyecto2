@@ -1,3 +1,7 @@
+/*
+ * En esta interfaz se inicia la búsqueda por título
+ * 
+ */
 package Interfaz;
 
 import Clases.Lista;
