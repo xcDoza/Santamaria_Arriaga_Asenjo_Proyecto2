@@ -36,11 +36,9 @@ public class Interfaz1 extends javax.swing.JFrame {
      * Toma el árbolGenealógico, junto con los Hash correspondientes y todas las demás interfaces.
      */
     private Tree houseTree;
-    private VerRegistro verRegistroFrame;
     private Search searchFrame;
     private TitleSearch titleSearchFrame;
     private HashTable personaHashTable;
-    private ListaGeneracion ListaGeneracion;
     private HashTable moteHashTable;
     private HashTableTitles titlesHashTable;
     private VerGeneracionYRegistro VerGeneracionYRegistro;
@@ -55,13 +53,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         personaHashTable = new HashTable(); // Inicializa la HashTable
         moteHashTable = new HashTable(); // Inicializa la HashTable
         titlesHashTable = new HashTableTitles(); // Inicializa la HashTable
-        verRegistroFrame = new VerRegistro();
         searchFrame = new Search();
         titleSearchFrame = new TitleSearch();
         MostrarAntepasados = new MostrarAntepasados(houseTree);
         searchFrame.setPersonaHashTable(personaHashTable);
         searchFrame.setMoteHashTable(moteHashTable);
-        verRegistroFrame.setPersonaHashTable(personaHashTable);
         titleSearchFrame.setTitlesHashTable(titlesHashTable);
     }
 
@@ -173,7 +169,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                     String contenidoJson = leerArchivoJson(filePath);
                     parsearJson(contenidoJson);
 //                    houseTree.displayGraph(); //con esto mostramos el grafo al parsear el json
-                    verRegistroFrame.poblarComboBox(); // Asegúrate de llamar a poblarComboBox después de parsear el JSON y añadir nodos a la HashTable
+//                    verRegistroFrame.poblarComboBox(); // Asegúrate de llamar a poblarComboBox después de parsear el JSON y añadir nodos a la HashTable
 
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
