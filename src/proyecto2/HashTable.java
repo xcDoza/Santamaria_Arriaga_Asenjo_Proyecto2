@@ -101,7 +101,7 @@ public class HashTable implements IHashTable {
         int position = (int) (hashValue % max);
         return position;
     }
-
+    
     /**
      * Transforma un String en un valor numérico para el hash
      *

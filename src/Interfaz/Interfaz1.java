@@ -8,11 +8,9 @@ import Clases.Lista;
 import Clases.Persona;
 import Clases.Casa;
 import Clases.ListaArray;
-import Clases.Map;
 import Clases.Nodo;
 import Clases.NodoArray;
 import Clases.NodoTree;
-import Clases.Par;
 import proyecto2.HashTableTitles;
 import proyecto2.HashTable;
 import com.google.gson.Gson;
@@ -24,7 +22,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import proyecto2.HashTable;
@@ -46,6 +43,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private ListaGeneracion ListaGeneracion;
     private HashTable moteHashTable;
     private HashTableTitles titlesHashTable;
+    private VerGeneracionYRegistro VerGeneracionYRegistro;
 
     Lista casas = new Lista();
 
@@ -81,6 +79,7 @@ public class Interfaz1 extends javax.swing.JFrame {
         VerGeneraciones = new javax.swing.JButton();
         SearchBtn = new javax.swing.JButton();
         titleSearchBtn = new javax.swing.JButton();
+        genyregisbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -127,6 +126,13 @@ public class Interfaz1 extends javax.swing.JFrame {
             }
         });
         getContentPane().add(titleSearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 150, -1));
+        genyregisbtn.setText("VerGeneracionYRegistro");
+        genyregisbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genyregisbtnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(genyregisbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -157,6 +163,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                 try {
                     String contenidoJson = leerArchivoJson(filePath);
                     parsearJson(contenidoJson);
+                    houseTree.displayGraph(); //con esto mostramos el grafo al parsear el json
                     verRegistroFrame.poblarComboBox(); // Asegúrate de llamar a poblarComboBox después de parsear el JSON y añadir nodos a la HashTable
 
                 } catch (IOException e) {
@@ -187,6 +194,11 @@ public class Interfaz1 extends javax.swing.JFrame {
     private void titleSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleSearchBtnActionPerformed
         titleSearchFrame.setVisible(true);
     }//GEN-LAST:event_titleSearchBtnActionPerformed
+
+    private void genyregisbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genyregisbtnActionPerformed
+        VerGeneracionYRegistro listaGeneracionForm = new VerGeneracionYRegistro(houseTree, personaHashTable);
+        listaGeneracionForm.setVisible(true);
+    }//GEN-LAST:event_genyregisbtnActionPerformed
 
 
     private ListaArray obtenerAtributosUnicos(JsonObject jsonObject) {
@@ -265,7 +277,7 @@ public class Interfaz1 extends javax.swing.JFrame {
                     }
                 }
                 casa.addPersonaje(persona);
-                contador ++;
+                contador++;
 //                personaHashTable.add(persona, false);//aniadimos personas a la hashtable
             }
             casas.deleteBegin();
@@ -279,6 +291,7 @@ public class Interfaz1 extends javax.swing.JFrame {
 //        arbol.mostrarArbol();  // Para visualizar con graphstream (no sirve)
         agregarNodosAHHashTable(arbol.getArbolGenealogico().getRoot()); // Usa el metodo getter
         houseTree = arbol.getArbolGenealogico();//usaremos este arbol para todo lo demas, posibles cambios
+//        houseTree.displayGraph(); //mostrar el grafo aquí también
 
         imprimirContenidoHashTable();
     }
@@ -408,6 +421,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private javax.swing.JButton VerGeneraciones;
     private javax.swing.JButton VerRegistro;
     private javax.swing.JButton btnCargarArchivo;
+    private javax.swing.JButton genyregisbtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton titleSearchBtn;
     // End of variables declaration//GEN-END:variables

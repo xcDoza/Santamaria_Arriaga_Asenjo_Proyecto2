@@ -7,7 +7,6 @@ package Interfaz;
 import Clases.Lista;
 import Clases.Nodo;
 import javax.swing.JFrame;
-
 /**
  *
  * @author sebas

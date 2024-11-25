@@ -4,9 +4,10 @@
  */
 package Interfaz;
 
+import Clases.ListaArray;
+import Clases.NodoArray;
 import Clases.Persona;
 import Clases.Tree;
-import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -29,6 +30,8 @@ public class ListaGeneracion extends javax.swing.JFrame {
         WindowManager.registrarVentana(this);
         
         llenarComboBoxGeneraciones();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no se cierre el programa cuando se clickea "x"
+        WindowManager.registrarVentana(this);
     }
 
     /**
@@ -95,15 +98,30 @@ public class ListaGeneracion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GeneracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneracionesActionPerformed
-        // TODO add your handling code here:
+        int generacion = Generaciones.getSelectedIndex() + 1;
+        ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100);
+        IntegrantesGen.setText("");
+        NodoArray[] arrayIntegrantes = integrantes.getArray();
+        for (int i = 0; i < integrantes.getSize(); i++) {
+            NodoArray nodoIntegrante = arrayIntegrantes[i];
+            if (nodoIntegrante != null) {
+                Persona persona = (Persona) nodoIntegrante.getElement();
+                IntegrantesGen.append(persona.getNombre() + "\n");
+            }
+        }
     }//GEN-LAST:event_GeneracionesActionPerformed
 
     private void CargarIntegrantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarIntegrantesActionPerformed
         int generacion = Generaciones.getSelectedIndex() + 1;
-        List<Persona> integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion);
+        ListaArray integrantes = arbolGenealogico.obtenerIntegrantesDeGeneracion(generacion, 100);
         IntegrantesGen.setText("");
-        for (Persona persona : integrantes) {
-            IntegrantesGen.append(persona.getNombre() + "\n");
+        NodoArray[] arrayIntegrantes = integrantes.getArray();
+        for (int i = 0; i < integrantes.getSize(); i++) {
+            NodoArray nodoIntegrante = arrayIntegrantes[i];
+            if (nodoIntegrante != null) {
+                Persona persona = (Persona) nodoIntegrante.getElement();
+                IntegrantesGen.append(persona.getNombre() + "\n");
+            }
         }
     }//GEN-LAST:event_CargarIntegrantesActionPerformed
 

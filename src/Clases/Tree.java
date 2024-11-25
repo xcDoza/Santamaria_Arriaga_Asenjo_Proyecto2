@@ -4,10 +4,9 @@
  */
 package Clases;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 
 /**
  * Clase árbol junto con todas sus primitivas
@@ -93,39 +92,57 @@ public class Tree {
     public Graph toGraph() {
         Graph graph = new SingleGraph("Tree Graph");
         if (isEmpty()) {
-            System.out.println("El arbol esta vacio. No se puede mostrar.");
+            System.out.println("El árbol está vacío. No se puede mostrar.");
             return graph;
         }
 
-        // Recorrer el árbol y añadir nodos y aristas al grafo
-        addNodeToGraph(graph, root, null);
+        // Coordenadas iniciales para la raíz
+        double rootX = 0; // Centro en el eje X
+        double rootY = 0; // Nivel superior
 
-        // Configurar estilo básico del grafo
+        // Añadir nodos y aristas al grafo
+        addNodeToGraph(graph, root, null, rootX, rootY);
+        
+        // Configurar estilos de visualización
         graph.setAttribute("ui.stylesheet",
-                "node { size: 20px; fill-color: blue; text-alignment: center; text-size: 15px; }"
+                "node { size: 20px; fill-color: gray; text-alignment: center; text-size: 15px; }"
                 + "edge { fill-color: black; }");
         graph.setAttribute("ui.quality");
         graph.setAttribute("ui.antialias");
+
         return graph;
     }
 
     /**
      * Método auxiliar para recorrer el árbol y añadir nodos/aristas al grafo.
      */
-    private void addNodeToGraph(Graph graph, NodoTree nodo, String parentId) {
+    private void addNodeToGraph(Graph graph, NodoTree nodo, String parentId, double x, double y) {
         if (nodo == null) {
             return;
         }
 
         String nodeId = String.valueOf(nodo.getKey());
+
+        // Añadir el nodo al grafo y asignarle la etiqueta
         graph.addNode(nodeId).setAttribute("ui.label", nodo.getElement().toString());
+        graph.getNode(nodeId).setAttribute("xyz", x,y,0); // Fijar la posición (x, y, z)
 
         if (parentId != null) {
             graph.addEdge(parentId + "-" + nodeId, parentId, nodeId);
         }
 
-        for (NodoTree child : nodo.getSons()) {
-            addNodeToGraph(graph, child, nodeId);
+        // Configurar posiciones para los hijos
+        int numHijos = nodo.getSons().length;
+        if (numHijos > 0) {
+            double spacing = 2.0; // Espaciado horizontal entre nodos hijos
+            double startX = x - spacing * (numHijos - 1) / 2.0; // Posición inicial en x para los hijos
+
+            for (int i = 0; i < numHijos; i++) {
+                NodoTree hijo = nodo.getSons()[i];
+                double childX = startX + i * spacing; // Calcular posición x para cada hijo
+                double childY = y - 1; // Nivel siguiente en el eje y
+                addNodeToGraph(graph, hijo, nodeId, childX, childY); // Recursión para los hijos
+            }
         }
     }
 
@@ -133,8 +150,25 @@ public class Tree {
      * Método para mostrar gráficamente el árbol utilizando GraphStream.
      */
     public void displayGraph() {
+
+//        con esto teoricamente desactivamos el layout automático y la interacción pero no funciona
+//        System.setProperty("org.graphstream.ui.layout", "manual");
+//        System.setProperty("org.graphstream.ui.view", "non-interactive");
+        System.setProperty("org.graphstream.ui", "swing"); //lo que faltaba para visualizar el arbol con graphstream
         Graph graph = toGraph();
-        graph.display();
+
+        // Verifica que los nodos tengan coordenadas asignadas y maneja el tipo del atributo xyz
+        graph.nodes().forEach(node -> {
+            Object posObj = node.getAttribute("xyz"); // Recupera el atributo xyz
+            if (posObj instanceof double[]) { // Verifica si es un arreglo de double
+                double[] pos = (double[]) posObj; // Realiza el cast seguro
+                System.out.println("Nodo con posicion valida: " + node.getId() + " - [" + pos[0] + ", " + pos[1] + "]");
+            } else {
+                System.out.println("Nodo sin posicion valida: " + node.getId());
+            }
+        });
+        Viewer viewer = graph.display();
+        viewer.disableAutoLayout();
     }
 
     public void print(NodoTree root) {
@@ -175,22 +209,18 @@ public class Tree {
         return alturaMaxima + 1;
     }
 
-    public List<Persona> obtenerIntegrantesDeGeneracion(int generacion) {
-        List<Persona> integrantes = new ArrayList<>();
-        obtenerIntegrantesDeGeneracion(getRoot(), generacion -1 , 0, integrantes);
-        System.out.println("Generacion: " + generacion + " - Integrantes: " + integrantes.size());
-        for (Persona persona : integrantes) {
-            System.out.println(" - " + persona.getNombre());
-        }
+    public ListaArray obtenerIntegrantesDeGeneracion(int generacion, int maxSize) {
+        ListaArray integrantes = new ListaArray(maxSize);
+        obtenerIntegrantesDeGeneracion(getRoot(), generacion - 1, 0, integrantes);
         return integrantes;
     }
 
-    private void obtenerIntegrantesDeGeneracion(NodoTree nodo, int generacion, int nivelActual, List<Persona> integrantes) {
+    private void obtenerIntegrantesDeGeneracion(NodoTree nodo, int generacion, int nivelActual, ListaArray integrantes) {
         if (nodo == null) {
             return;
         }
         if (nivelActual == generacion) {
-            integrantes.add((Persona) nodo.getElement());
+            integrantes.insertFinal((Persona) nodo.getElement());
             System.out.println("Aniadido: " + ((Persona) nodo.getElement()).getNombre() + " en generacion " + nivelActual);
         }
         for (NodoTree hijo : nodo.getSons()) {

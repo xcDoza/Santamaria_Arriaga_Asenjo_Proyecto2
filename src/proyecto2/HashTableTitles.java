@@ -85,7 +85,7 @@ public class HashTableTitles{
     public int getMax() {
         return max;
     }
-
+    
     /**
      * Método hash para calcular la posición en la tabla
      * @param key Clave para hashear
