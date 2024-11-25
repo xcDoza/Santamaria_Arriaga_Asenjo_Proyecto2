@@ -8,7 +8,7 @@ import Clases.Lista;
 import Clases.Nodo;
 import javax.swing.JFrame;
 /**
- *
+ * Toma como parametros una lista para meter todas las interfaces dentro de ella.
  * @author sebas
  */
 public class WindowManager {

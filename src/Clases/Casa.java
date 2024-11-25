@@ -1,11 +1,12 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Esta clase representa una casa que contiene un nombre y una lista de personajes asociados a dicha casa.
+ * 
  */
 package Clases;
 
 /**
- *
+ * Nombre de la casa
+ * Lista de personajes que pertenecen a la casa
  * @author xc2do
  */
 public class Casa {

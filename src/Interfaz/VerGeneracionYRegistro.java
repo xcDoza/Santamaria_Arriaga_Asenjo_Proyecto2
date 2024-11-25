@@ -1,6 +1,6 @@
 /*
- * En esta interfaz se hace la búsqueda por generación y el registro
- * 
+ * Esta clase se utiliza para gestionar una interfaz gráfica en la que se pueden visualizar y seleccionar integrantes de diferentes generaciones de un árbol genealógico. 
+   Además, permite mostrar información detallada sobre una persona seleccionada de la lista. 
  */
 package Interfaz;
 
@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
 import proyecto2.HashTable;
 
 /**
- *
+ * Instancia de la clase Tree que representa el árbol genealógico.
+ * Instancia de la clase HashTable que almacena las personas y sus atributos.
  * @author xc2do
  */
 public class VerGeneracionYRegistro extends javax.swing.JFrame {
@@ -24,7 +25,8 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
     private HashTable personaHashTable; //declara la variable personaHashTable
 
     /**
-     * Creates new form VerGeneracionYRegistro
+     * Este constructor inicializa la interfaz gráfica y 
+     * recibe como parámetros el árbol genealógico (arbolGenealogico) y la tabla hash (personaHashTable) que contienen la información de las personas.
      */
     public VerGeneracionYRegistro(Tree arbolGenealogico, HashTable personaHashTable) {
         initComponents();
@@ -43,16 +45,24 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        SeleccionarBtn = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        btnMostrarDatos = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        SeleccionarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SeleccionarBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SeleccionarBtnMouseClicked(evt);
+            }
+        });
+        getContentPane().add(SeleccionarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 150, 40));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -60,7 +70,7 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 210, 40));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 230, 40));
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -76,17 +86,9 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jList1);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 210, 80));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 230, 90));
 
-        btnMostrarDatos.setText("jButton1");
-        btnMostrarDatos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarDatosActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnMostrarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 470, 110, 30));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/3.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/3_1.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
@@ -108,7 +110,7 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
         jList1.setModel(model);
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void btnMostrarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarDatosActionPerformed
+    private void SeleccionarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SeleccionarBtnMouseClicked
         String nombrePersonajeSeleccionado = jList1.getSelectedValue();
         if (nombrePersonajeSeleccionado != null && !nombrePersonajeSeleccionado.isEmpty()) {
             for (NodoTree nodo : personaHashTable.getTable()) {
@@ -123,7 +125,7 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un personaje", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnMostrarDatosActionPerformed
+    }//GEN-LAST:event_SeleccionarBtnMouseClicked
 
     private void mostrarDatosPersona(Persona persona) {
         StringBuilder info = new StringBuilder();
@@ -183,7 +185,7 @@ public class VerGeneracionYRegistro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMostrarDatos;
+    private javax.swing.JLabel SeleccionarBtn;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;

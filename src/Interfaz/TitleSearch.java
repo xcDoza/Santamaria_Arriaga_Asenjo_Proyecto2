@@ -1,6 +1,6 @@
 /*
- * En esta interfaz se inicia la búsqueda por título
- * 
+ * Esta clase representa una interfaz gráfica que permite visualizar e interactuar con las generaciones de un árbol genealógico. 
+    Los usuarios pueden seleccionar una generación específica desde un combo box y ver los integrantes de la misma.
  */
 package Interfaz;
 
@@ -18,7 +18,8 @@ public class TitleSearch extends javax.swing.JFrame {
     private HashTableTitles titlesHashTable;
 
     /**
-     * Creates new form TitleSearch
+     * Constructor de la clase. Inicializa los componentes de la interfaz y asigna el árbol genealógico. 
+     * También se registra la ventana y se establece el comportamiento al cerrar la ventana.
      */
     public TitleSearch() {
         initComponents();
@@ -35,50 +36,59 @@ public class TitleSearch extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        BuscarBtn = new javax.swing.JLabel();
+        BuscarPersonajeBtn = new javax.swing.JLabel();
+        PersonajeSelectBtn = new javax.swing.JLabel();
         SearchText = new javax.swing.JTextField();
-        SearchBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         SearchResults = new javax.swing.JList<>();
-        SelectResultBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         PersonSelect = new javax.swing.JList<>();
         PersonSelectBtn = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        BuscarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BuscarBtnMouseClicked(evt);
+            }
+        });
+        jPanel1.add(BuscarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 180, 150, 30));
+
+        BuscarPersonajeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarPersonajeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BuscarPersonajeBtnMouseClicked(evt);
+            }
+        });
+        jPanel1.add(BuscarPersonajeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 470, 150, 30));
+
+        PersonajeSelectBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PersonajeSelectBtnMouseClicked(evt);
+            }
+        });
+        jPanel1.add(PersonajeSelectBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 470, 150, 30));
+
         SearchText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SearchTextActionPerformed(evt);
             }
         });
-        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 460, 40));
-
-        SearchBtn.setText("Buscar");
-        SearchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 130, 40));
+        jPanel1.add(SearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 420, 40));
 
         jScrollPane1.setViewportView(SearchResults);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 460, 160));
-
-        SelectResultBtn.setText("Seleccionar");
-        SelectResultBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SelectResultBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(SelectResultBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 230, 160, 50));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 250, 170));
 
         jScrollPane2.setViewportView(PersonSelect);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 460, 160));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, 250, 170));
 
         PersonSelectBtn.setText("Seleccionar");
         PersonSelectBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +96,10 @@ public class TitleSearch extends javax.swing.JFrame {
                 PersonSelectBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(PersonSelectBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 420, 150, 50));
+        jPanel1.add(PersonSelectBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 520, 150, 50));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/5.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
@@ -101,11 +114,19 @@ public class TitleSearch extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_SearchTextActionPerformed
 
-    private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
-        SearchResults.setListData(titlesHashTable.getMatch(SearchText.getText()));
-    }//GEN-LAST:event_SearchBtnActionPerformed
+    private void PersonSelectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PersonSelectBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PersonSelectBtnActionPerformed
 
-    private void SelectResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectResultBtnActionPerformed
+    private void BuscarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarBtnMouseClicked
+        SearchResults.setListData(titlesHashTable.getMatch(SearchText.getText()));
+    }//GEN-LAST:event_BuscarBtnMouseClicked
+
+    private void PersonajeSelectBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PersonajeSelectBtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PersonajeSelectBtnMouseClicked
+
+    private void BuscarPersonajeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarPersonajeBtnMouseClicked
         Lista result;
         result = titlesHashTable.get(SearchResults.getSelectedValue());
         String[] aux = new String[result.getSize()];
@@ -118,11 +139,7 @@ public class TitleSearch extends javax.swing.JFrame {
         }
         PersonSelect.setListData(aux);
         // aquí debería enviarte a otra selección para luego mostrar la informacion de la persona
-    }//GEN-LAST:event_SelectResultBtnActionPerformed
-
-    private void PersonSelectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PersonSelectBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PersonSelectBtnActionPerformed
+    }//GEN-LAST:event_BuscarPersonajeBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -160,12 +177,14 @@ public class TitleSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BuscarBtn;
+    private javax.swing.JLabel BuscarPersonajeBtn;
     private javax.swing.JList<String> PersonSelect;
     private javax.swing.JButton PersonSelectBtn;
-    private javax.swing.JButton SearchBtn;
+    private javax.swing.JLabel PersonajeSelectBtn;
     private javax.swing.JList<String> SearchResults;
     private javax.swing.JTextField SearchText;
-    private javax.swing.JButton SelectResultBtn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
